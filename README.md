@@ -1,8 +1,8 @@
 ## Projects for Specialization
 
 ### ETL (Extract, Transform, Load)
-A. SQLite Origin B. Python C. SQLite Destination
+A. Keyword Extractor Tool to HashTag Tool
 
-B. Keyword Extractor Tool to HashTag Tool
+A. SQLite Origin B. Python C. SQLite Destination
 
 C. 
