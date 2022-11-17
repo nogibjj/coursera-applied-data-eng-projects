@@ -1,0 +1,1761 @@
+Hi, my name is Noah Gift, and I'm the author of this O'Reilly book, Practical ML Ops.
+And I wanted to talk a little bit about this next training here that's several hours long.
+What I'm going to do is I'm going to cover the basics of how to go from zero, learn about
+the trends that are happening with ML Ops, and then use pre-trained models in a GitHub
+code space to actually build out summarization, natural language processing tools, and a lot
+of other tools that are available by using Hugging Face and OpenAI.
+Okay, let's go ahead and get started.
+Hi, happy to be here today.
+A lot of new stuff I'm going to cover today that I think will be helpful to everybody.
+And I'll show you some of the research I'm doing as well for a new book beyond Practical
+ML Ops called Enterprise ML Ops.
+And I'm talking with a lot of the leading experts on ML Ops, and that material is going
+to go into the book.
+So I'm going to cover all the stuff that's really cutting edge today, as well as some
+traditional material.
+So I can probably get right into it then.
+I have a lot of stuff to cover.
+So first up, what I will do is screen share.
+And let's start with the view of the world of ML Ops trends and techniques.
+I think this is a great way to think about how things are headed.
+And first I'll just really briefly mention a little bit about my background, because
+it's I think relevant to ML Ops and potentially maybe to other people that are watching this.
+So the start of my career really was working in 3D animated film back in the Los Angeles
+area.
+So Hollywood, LA, Glendale, Burbank, that whole area was pretty interesting in the late
+90s and also early 2000s, because you would do Python programming inside of a mounted
+file system that was an NFS-based file system.
+And so it was very interesting how that workflow has now trended towards what we now do with
+data engineering.
+So 20 years ago, 25 years ago, the film industry, Disney, Sony, Pixar, have really been doing
+a lot of these same things.
+Since then, I've done some other things in my career, but I've written four-plus books
+for Riley.
+I'm on the fifth one right now, written nine-plus books.
+I built a social media company with millions of users and millions in revenue from zero.
+And I used ML Ops heavily when we did this.
+This was 2013.
+So I have some experience with recommendation engines and also some of the ethical problems
+with social media.
+And then recently, I've been consulting.
+And I wrote the book Practical ML Ops, and I'm now on a new book for Riley called Implementing
+ML Ops in Enterprise.
+So that's a little bit of the context about what I'm going to cover today.
+And then I'll also just show you this visual, because I like data science.
+And this is a visual of how I kind of thought about my career.
+And I think this is kind of a fun thing to do if you haven't had a chance to make one
+of these things, where you put things in a perspective where it's combining things.
+Instead of this linear view, there's a nonlinear aspect to looking at everything at the same
+time.
+So from a high level here, early when I was a teenager, because I grew up in the LA area,
+I was working in the news industry.
+And then at the same time, I took a brief stint and worked at Caltech for a little bit
+on Unix file systems.
+And then all those experiences helped me work in the film industry.
+But what's interesting about that is all that background has been perfect for me in how
+that cloud computing, machine learning, and data engineering are such a big deal.
+So then later down the road.
+So sometimes when you're thinking about shifting into a different career or moving into different
+things, I personally think it's a neat idea to kind of put together all the different
+skills you have into maybe a linear diagram like this.
+And what you may realize is that some of your previous experience, even if it was 10 years
+ago, could really actually be suitable to the new phase of technology, because things
+are constantly changing.
+And I think this does actually give me a pretty good perspective on what's happening.
+So that's my background.
+So let's talk about why MLOps here next.
+So in general, I think one of the big problems that's happening in the world is that we talk
+about data science quite a bit, but there's really not enough ROI.
+And ultimately, things do come down to ROI in the real world.
+And you need to prove that what you're doing is going to have a return on investment for
+the stakeholders in your company, the external stakeholders.
+All of those people need to have experience with some kind of ROI.
+And I think we're not there yet, but things are changing.
+Also, life is short.
+So we need to make sure that we're seeing results, not just experiments.
+So I think it's easy to get caught up in this practice mode, where all you're doing is practicing
+for the event in the future, when really, you're ready already to produce some kind
+of result.
+So I think having a sense of urgency, like a bias for action, is really important.
+And then the third issue is that, and I've talked to many people recently about this
+that are experts, the chief evangelists of Hugging Face, actually, I just was talking
+to him.
+And he was telling me that there is a need for people to just move faster, have a sense
+of urgency, use higher level tools.
+And I can't agree with him more.
+His name is Julian Simon.
+And I think these are the key items that are driving MLOps.
+Now a couple things also that I'll mention here that I think is maybe a little bit shocking
+to people is that there is, in fact, a change afoot in terms of what's happening in industry.
+And Wall Street Journal, this is 2020, which is almost ancient now, because we're almost
+in 2023.
+They reported that there was almost a million jobs, double from the year before.
+Right now, we can just see AWS is everywhere, Azure is everywhere, the cloud computing is
+just really taking a hold.
+And so now, I think what we're seeing is that the data science job title itself is still
+relevant, but I think it's less relevant in terms of data engineering, machine learning
+engineering, MLOps, or cloud computing.
+It's more that you have to do data science as a behavior or some kind of a task inside
+of a broader role.
+So it's not like data science went away, but it may not actually be a specific specialized
+skill because it's so hard to pin down what a data scientist even does.
+And I speak from experience here because I've hired multiple teams of data scientists when
+I was in the Bay Area at startups, and I've taught data science at some of the top universities
+in the world.
+Nobody knows what a data scientist is.
+We know how to teach data science, in fact, later today at Duke, I'm going to teach data
+science, but is it actually a job title?
+I would probably say no for very specialized roles.
+If you're a chief executive or something like that, or at a really high level position in
+a company, sure, you could say you're a chief data scientist, but I don't see it as a specialized
+role as much anymore as I do these other job titles, really taking away a lot of the traction
+for it.
+So what this means is that it isn't that we're not going to do data science anymore, it's
+that you probably also need to know data engineering, machine learning engineering, and cloud computing.
+So let's go now to some of the specifics.
+This is something that I'm a huge fan of is this rule of 25, so 25%.
+I know there's some people that are talking about data centric or model centric, and there's
+a lot of validity to this, but I would say a key rule here is that are you actually really
+looking at the real problem that's happening in production?
+And if you don't have 25% of your time dedicated to DevOps, then you're not going to be able
+to address MLOps.
+If you don't have 25% of your time with data, so that's what people call data centric, you're
+going to have a problem, 25% of your time dealing with models, and then 25% of your
+time dealing with the business perspective.
+And this is really important, the business perspective, and not talked about enough,
+which is this is really the framing of the problem.
+Like are you framing the problem in a way that people can actually use the results of
+what you've built?
+And I don't think any one of these is more important than the other, and in fact I would
+say in some sense you should be worried if someone says there's this one perfect solution
+that will solve a problem.
+I just don't believe it.
+I think you need to have a balance, and that's why I think the rule of 25 is a pretty good
+rule, right?
+25% of time on each of these four items.
+Now let's talk about strategy in an organization.
+A lot of companies ask me about this, hey, what's your MLOp strategy, and how would you
+get started if you want to go from zero?
+So to start with, I think it's important to pick technology partners and to know that
+there's no silver bullet for platforms and technology providers.
+So a lot of times it's easy to think that there's a silver bullet, and there's one provider
+that will solve all of your problems, but generally there's not a silver bullet solution
+that will solve all of your problems.
+You need to have an approach where you use a combination of tools to solve your problems.
+And then the other thing to consider is that you're going to have multiple investments
+in an organization.
+So you have maybe a primary investment that I would recommend would be things like it
+has low cost structure.
+So AWS, for example, is a pretty good primary investment.
+They have a very inexpensive compute, lots of people use it, it's easy to hire people,
+they have a huge list of services that you can use, and it's easy to build things on
+top of it.
+So that would be the primary structure.
+But also you're going to need some kind of a secondary structure.
+So it could be a particular solution solves a problem very well.
+So it could be something like a Guazio, which has an MLOps framework, Databricks, which
+has a Spark-based MLOps framework, Splunk, Snowflake, really depends on who it is you
+have in your organization, what kind of problems you have.
+Are you Kubernetes-based?
+Are you Spark-based?
+What are some of the experiences that people in your organization have?
+And then in terms of investments, is there an R&D focus as well?
+Like maybe a third kind of investment is do you think there's some trend that's happening?
+Like Hugging Face would be a good example, where it looks like the pre-trained model
+area is going to explode, so you need to have a little bit of focus there and look at things
+like deep learning tech, Kubernetes, edge-based computing, all those kinds of things.
+So I think this is a very good formula as well, which again, going back to picking technology
+partners.
+If you just pick one, you're going to miss out on really a comprehensive strategy.
+The better strategy is to have primary, secondary, and then investments.
+And once you think that way, I think it's a good strategy to really be prepared for
+what the future brings, because it is difficult to know exactly what's going to happen in
+a particular technology space, especially something like MLOps.
+So now let's go back to the primary real quick, and let's talk about some of the key drivers
+here.
+So one of them is that Amazon does lead the market here with $200 billion.
+It's gone up since then.
+This is a slightly old graph, and you can see Azure's number two, and Google Cloud's
+number three.
+So basically, these are the three providers probably that you should care about the most
+in the US with a weighting towards the biggest ones.
+And why would you care about this?
+Well, enterprise support is huge, right?
+You want to be able to call up support and say, hey, my compute cluster is not working.
+What do I do?
+And they can actually help you out in a real world scenario.
+Likewise, in terms of industry standard certifications, I think this is a great way to get qualified
+people into your organization, get them trained, get them working on the right material.
+And there's a standard set of curriculum.
+And so this then makes it easier to hire.
+And also, it's easy to upskill people because whatever market is huge, there's going to
+be a lot of training available for it.
+So really, this is the Matthew Effect, which is that the rich get richer, right?
+So once you have the traction, it makes it a lot easier to get more and more services
+with it.
+Now, in terms of the secondary considerations, one of the things to think about is that does
+a platform make my job easier for a specific aspect of a job?
+So ETL kind of platform, maybe something like Snowflake, log search platform, can I go through
+and use really sophisticated tools to find anomalies or cyber attacks?
+Maybe something like Splunk, monitoring Datadog or New Relic, does it have kind of an easy
+plug and play application performance monitoring tools?
+These are all important things to consider, like are they going to add to the velocity
+of what it is that you're doing?
+And then if we go into the popular certifications here, again, easy to hire, easy to train,
+even for the secondary, right?
+So a lot of secondary companies now are building out certifications, and then the other thing
+is does the secondary company synthesize well with the platform, right?
+So is there tight integration with it, and are they built on top of popular technologies?
+It does seem like Kubernetes in particular does seem to be really spread out on a lot
+of different solutions here.
+And so you can also look at this strategic diagram here where you can see that there's
+maturity, platform play, future play, innovation, right?
+You can see all these different companies and where they're at in that particular space.
+Now let's dig into the hiring and upskill strategy a little bit more, because I do think
+this is an important topic.
+One of the things I would recommend for organizations is that they get platforms and certifications
+embedded into their organization.
+I would say an organization should have a couple different learning platforms.
+O'Reilly, I'm obviously biased.
+I think it's a great platform.
+Maybe get another one as well.
+And encourage people in your company to get certified by paying for the certifications.
+I think this is really critical.
+There's all these things out there about people quiet quitting, not wanting to participate
+at work.
+Well, I mean, in some sense you could kind of look at the management and say, well, what
+are you doing?
+Most of the time, and there's research that points to that, the reason why people want
+to leave an organization is that the company is not showing a reciprocal interest in them.
+And so are you actually giving your employees an opportunity to grow and encourage them
+to get certified, paying for their certifications, having internal user groups with monthly tech
+talks and demos, having yearly and quarterly goals.
+So by investing in your employees, you're actually helping them have more of an incentive
+to stay.
+In fact, when I was working at Caltech, one of the presidents of Caltech actually told
+me some career advice, he said, the reason to leave a company or stay at a company is
+whether you're learning.
+As long as you're learning things, you should stay at a company.
+If you're not learning anything more, you should leave a company.
+And I thought, wow, that's pretty good advice.
+Of course, you're the president of Caltech, so you probably would know.
+And I think that's a pretty big takeaway, which is if you're having people leave a company,
+well, are you investing in them learning?
+And also, the demos, I think, is another one that I do a lot in teaching.
+And especially with new things like this, with MLOps, is by teaching people to demo
+in your organization constantly, you're improving metacognition, which is the ability to know
+what you know and what you don't know.
+And this is really critical, metacognition, because it allows you to move faster.
+Because if you don't know something, because you're demoing it and realize, oh, I don't
+actually know that particular part of it, then you learn it, and then it allows you
+to accelerate faster.
+So let's talk a little bit about some of the key certifications for MLOps here.
+And I've actually done a lot of work in this space, and I'm going to talk about that in
+a little bit.
+So in terms of AWS, I think three that are pretty good for MLOps would be the Solutions
+Architect Certification, also the AWS Machine Learning Certification, and the Data Analytics
+Certification.
+All three of these certifications, actually, I've created training material that's on the
+O'Reilly platform that covers each of these.
+And I think these are some of the best, that you're not going to go wrong with getting
+these certifications.
+I've taken them myself and passed these certifications, or in some cases even helped write the certification.
+I've been involved with AWS for quite some time.
+And then some of the others that I think are pretty interesting, and I have some of them
+that I've been working on.
+One of the ones I'm interested in is actually, Databricks has now a Machine Learning Engineering
+Certification, and I'll talk about that very briefly.
+There's also, Snowflake has certifications.
+I think that's a very interesting company that's doing a lot in the MLOps space.
+ML Run has a, not certifications, but they have a marketplace where you can actually
+build example applications that are MLOps focused.
+So I think there's a lot of interesting things there.
+Kubernetes would be a good certification to get, and then also the Google Cloud Professional
+Machine Learning Engineer.
+So I actually just took that and passed it, and I'll talk a little bit about that in a
+second as well.
+So all these spaces I think are very interesting places for people that want to dive into MLOps.
+So let's talk a little bit about some of the future trends that I see with MLOps.
+So to start with, one of the things that I think we're going to see here is that the
+file system itself is going to be a lot more important than it used to be, and that's why
+I brought up at the very beginning how I started my career out with file systems, and Caltech,
+this was 2000, had, I don't know, 50,000 users or something like that, and they all would
+use a centralized file system that was a Unix-based file system, and I learned how those kinds
+of things work.
+Now it's coming back, where now you can do some very interesting things if you have a
+file system because the clusters themselves, if they're training machine learning models
+or they're using data, they can just mount the file system and everything can be deployed
+by just copying the data directly on a file system.
+So in some cases, maybe like 1000 deep learning nodes that are training something could work
+very, very quickly by using a file system.
+So I think this is a space to watch and potentially spend a little bit of time mastering is to
+get more and more familiar with the elastic file system on AWS.
+There's also file systems for other cloud providers as well.
+Also the Kubernetes workflow is, I think, a very interesting one because it works well
+for large distributed systems, especially hybrid cloud-based deployment systems, and
+ML Run actually is a heavy user of Kubernetes-based system, and this would be, I think, a good
+technology to get some experience with, maybe get a certification around.
+I do think the future is going to have more and more ML Ops with Kubernetes.
+The other one that's a big one too, that's a trend, is edge-based machine learning.
+I think what we're seeing is that edge-based systems, so basically deploying to a phone,
+deploying to a device, et cetera, are a huge new trend that we're seeing.
+What this means is that there's low latency when the model goes to a device, and so basically
+you can do things that are much more difficult than if you're talking to an endpoint somewhere
+else because of the fact that an endpoint could hop over maybe 100 different network
+access points, but on an edge-based device, the model literally is right on the device,
+so it could be millisecond response time.
+This is, I think, definitely an area where we're seeing a lot of traction.
+The other one I think that's an interesting one that we're seeing is this concept of sustainability.
+This is an interesting space because on one hand, there is, I think, a concerted move
+by some people to try to say that ESG or sustainability investing is a bad idea, et cetera, et cetera.
+Of course, they also could have their own agenda for saying this, but the reality is
+that you don't necessarily need to be training models all the time yourself if somebody else
+has already trained the majority of it for yourself.
+This then starts to get into some of these topics like the environment, again, like why
+burn energy you don't need to burn, social, so have people already looked at some of the
+ethical issues or the bias already in the model and kind of helped you with it, and
+then governance, right, like is it actually going to be safe for people to use.
+I think these are all really important factors with ML Ops, and I think the regulation we're
+seeing from the EU is going to push a lot of this as well.
+Then the big one I think that is a trend that I'm really seeing a lot of, and I personally
+am pushing is this pre-trained model in AutoML, and in the case of ML Ops in particular, you
+don't need to have built it to use it.
+Food is a good example.
+You could have flour, right, where you could make a pizza dough, you could buy a frozen
+pizza or you could get pizza delivered, right, they're all the same thing, right?
+You're eating food, they were made in different ways, but the same concept applies.
+So basically one of the things that I think I'm going to show today in fact is how to
+actually use pre-trained models and AutoML to your advantage.
+Another one I think that's a big trend is this concept of model portability, and I think
+we're going to see this quite a bit as well is that someone may have built the model with
+PyTorch and they convert it to TensorFlow or vice versa, and Onyx in particular is one
+of the technologies that we're seeing a lot of this happen around, and so I think this
+is a good trend, right, because then you have a standardized format for models.
+The other thing too is I think this concept of, I'll call it the MLOps Industrial Revolution
+here is that I think the cost potentially of certain things is going to go way down,
+but what we could see, and this is just one of the predictions that I have is maybe by
+2025, maybe AutoML becomes commodity, like why is it we're paying money for AutoML?
+To me it doesn't really make sense because I think there isn't anything special about
+AutoML for the most part, and this will probably go down and down and down.
+Likewise probably pre-trained models are going to go down and down and down.
+It's going to be a commoditization or imperfect competition, all profit leads to zero, and
+so what we will probably see is people that are ML engineers, data engineers, that they're
+going to be in demand as you're trying to utilize these systems, and I think a lot of
+times people get really hung up or angry about AutoML, like oh, you're taking my job, just
+like with the Copilot, which I'm going to use in a little bit.
+I think you're thinking about the problem in the wrong way, which is that automating
+the model is not really that useful in some sense.
+You want to automate the entire system, so I would call that KaizenML, which is you improve
+the entire system, not just improve the model, and so if you get hung up on this one part
+of it, you lose the main narrative, which is no, we're automating everything.
+That's the whole point of KaizenML, right?
+Let's improve the entire system, not just automate the machine learning model, because
+that's just one very tiny part of it.
+So what is the solution here would be to have a production first mindset, so when you dive
+into a solution here, you dive right into what it is that you're building and you think
+about from the beginning that there's only a very small amount that is going to be things
+like AutoML, you probably want to have auto data engineering, automatic feature engineering,
+automated testing, automated deployment, automated elasticity, automated data detection, automated
+intelligence systems, right?
+So when you get into like, when people get too focused on AutoML, they're again losing
+the narrative here, which is every single thing in a software system gets automated,
+so the fact that we're now getting to machine learning, I mean, should not be a surprise,
+right?
+That's what happens in software systems.
+The goal though is to get the model in production, so the expert should look at the whole system
+and say what parts are not automated and then focus on that.
+So I think that's really the mindset to have here when thinking about AutoML is that you
+need to have a production first mindset when you're building things out.
+So what I'm going to do next here is I'm going to dive into some kind of cutting edge thoughts
+that I have, and so this is a new book that I'm working on, and I'll just show you the
+name of the book, which is, it's going to come out in pre-release here or early release
+in I would say a couple weeks or something like that.
+It's called Implementing ML Ops in the Enterprise, and we can just start, and I'll show you some
+of the things that I'm going to be talking about in it because I think they're relevant.
+So one of them is that when you're evaluating a technology platform, I see this come up
+quite a bit, is that people get too hung up on the cost of the solution, but that's just
+like with getting hung up on AutoML is the wrong approach.
+You shouldn't get caught up on cost.
+What you should get caught up on is the ROI.
+And so here's one scenario is you have no value, no cost, no ROI.
+What happens?
+Well, you have nothing.
+Nothing happened.
+So in the case of if it's free, open source, but it offers no value, then you didn't get
+anything from it, so there's no point.
+In a second scenario, you could have a really high value that you're trying to solve from
+some technology solution, but the cost is also very high, so it's, let's say, $2 million,
+and then as a result, you have negative ROI, so you don't want to do that one either, right?
+So you have zero ROI, negative ROI.
+The sweet spot isn't the cost being nothing, right?
+It actually could be that you have identified there's a million dollars of value in a scenario.
+The cost of the system you're working with, hiring people, implementing it, et cetera,
+is half a million, and then you get half a million in ROI.
+That's great.
+That's exactly what you want.
+You want to spend some money to make some money, and I think this is a very important
+thing to think about is that you want to be very careful about cutting-edge technology
+and making sure that you're getting things at a positive ROI.
+That's one of the easiest ways to get burned.
+And if we scroll down here a little bit, this is where the scenario comes into play, and
+this happens a lot in the real world.
+I've seen it as a manager.
+I might have even done this before at an organization.
+So you have a bespoke system, so somebody builds something from scratch, and that system
+has nothing to do with the organization.
+Let's say you're a telecom company or a manufacturing company, and then you build this machine learning
+framework, which, for some reason, a lot of... You see this a lot in Bay Area companies
+as like, oh, look, I built a machine learning platform and all this stuff.
+What does that have to do with your core business?
+It may have nothing to do with it, and it doesn't mean they're not smart.
+They could be a genius, basically, or a brilliant person.
+The problem, though, is that if you really are that smart, one, that's not the core competency
+of your company, and two, they're probably gonna get hired by another organization that
+pays 10 times more, and then now they're at a $1 trillion company, Apple, Google, et cetera,
+and guess what?
+Now that system, even though it was well-designed, it'll probably break in three months.
+Once it breaks, guess what's gonna happen?
+Now you're gonna put in a proprietary system.
+The organization's gotta retrain on the new system, and then potentially the new system
+is even better than the bespoke one, even though the one that the engineer built is
+pretty good.
+I think that's something to think about is this idea of one person who's a sole hero
+builds some system in a company.
+Unfortunately, it's fantasy land.
+You don't want that to happen.
+What you really wanna do is have some kind of a platform, or several platforms, as I
+mentioned earlier, where you're actually using that so that there's a commonality and continuity
+in your organization so that after people leave, you still can hire people and still
+work on things.
+So I think this is really subtle but important note about MLOps.
+Now the other thing that I'm gonna mention a little bit too is this concept of risk and
+uncertainty in the enterprise, and in particular, one of the things that I'll bring up here
+is this concept of the naughty child problem that the author of Black Swan, Taleb, wrote
+about, which is that a lot of times in an organization, it's easy to get caught up into
+thinking that you know something in more detail than you actually know, and one of the problems
+that he brings up here is that a lot of times people will assume that they understand a
+problem because in the case of a container that has black balls and red balls, if the
+container is closed and there's a fixed capacity for every ball that you pull out, if you randomly
+pull out a ball, it's true that you're getting more and more information about the true probability
+of the balls in the container, and you can be more and more certain about making some
+kind of a guess, like there's 60% red balls and 40% black balls or whatever, but the problem
+is in the real world is rarely that type of situation.
+We see this with MLOps in particular is that, and this is the analogy that he brings up
+is imagine that someone is pulling all the balls out of the container, but what they
+don't realize is that there's a little kid at the bottom who's shoving in new balls.
+So the adult thinks that they're getting more and more probability, more and more confidence
+in the probability of distribution, but in reality they don't know anything because there's
+a randomness occurring that's going into the container, and this is really reflective of
+a lot of the machine learning problems in production is that if the data itself has
+been changing, and this is why you wanna do data drift detection, then you're gonna have
+an extremely difficult time doing anything useful with the model because the model just
+doesn't reflect reality, and so it's important to be aware of this concept of non-deterministic
+behavior with data and to be, I guess, cautious when you're thinking about implementing a
+machine learning problem into production.
+And so if we go down here a little bit, and I'll talk about another diagram here, and
+this goes into some of the things that we talked about just briefly, is that one of
+the ways that you can start to think of the world in MLOps is to leverage existing systems,
+and I think in particular the cloud, if it's a possibility for an organization, is one
+of the things that reduces the risk of MLOps.
+Not that you have to always use their MLOps solution, but that at least it's a background
+for doing some of the things with MLOps.
+And so let's take a look at some of the capabilities that are available in an MLOps system from
+an enterprise perspective.
+So one, we have storage systems that are elastic, and so what does that give you?
+You have the ability to do near infinite disk I.O., storage, CPU, GPU, ASICs.
+Likewise, you have elastic compute systems, so the same thing, infinite disk I.O.
+And so this near infinite capacity of storage and compute is one of the things that's going
+to help you build deep running systems, deploy things at scale.
+There's also, I think, a subtle effect here that isn't talked about enough, which is the
+concept of a network effect when you're dealing with the cloud platforms in that they have
+managed services that are built on top, containerized services, managed services, serverless technology
+and all of these technologies really allow for a huge advantage in building things because
+they build on top of those other systems.
+Also there's cloud development environments, and cloud development environments are really
+amazing because they have deep integration with tools, deep integration with SDK, and
+you can do as well, you have third-party vendor integration.
+So once you've built on top of this ecosystem, you get these cloud development environments,
+you get third-party integrations, and you can actually scale.
+And so we can see here that there's typically a couple different kinds of tool sets.
+We have developer-centric, which would be like cloud shells, cloud IEs, storage systems.
+We have Jupyter systems, which are more notebook and machine learning-centric.
+And then there's MLOps platforms.
+So you see like a wide spectrum of different things here when you're dealing with a cloud
+landscape.
+Now, one of the things that I'll bring up real quick here is that if we look at Google
+Cloud, they have a terminal, they also let you hook into the APIs, there's shells that
+you can use that you could run training jobs, et cetera.
+This is going to be table stakes, I think, for most people doing MLOps, and in particular,
+same thing, cloud shell has it, cloud IDE, they really are ubiquitous.
+And so this now gets us into what I would say is really important to consider for an
+organization is the cloud developer workspace advantage.
+And I think all organizations should be heavily thinking about where it is that you're developing
+your software.
+So are you developing your software in your workstations at your organization, or are
+you developing the software in a cloud-based environment?
+The problem with a laptop or workstation is that, one, it's non-deterministic.
+I've worked places in my career where it's taken a month for someone to get up to speed
+because their software on their workstation was so complex to set up.
+And even people with like, you know, master's degrees from Carnegie Mellon, you know, like
+very intelligent people would take a month to get set up at work.
+This is really nonsense, right?
+We don't need to do that.
+The hardware costs a lot of money, and also it's not the same deployment target.
+When you get into the cloud, though, we have all of these new environments that are very
+cutting edge that surprisingly not many people know about.
+But I'm going to go into some of these.
+One of them is GitHub Codespaces.
+I think GitHub Codespaces has some of the most promise, period, for doing cloud-based
+developer workflows, especially with MLOps and AI programming, pre-trained models.
+You can use the OpenAI Codex, which is actually integrated into Copilot, so you can actually
+use AI to program AI.
+And that's one of the really huge takeaways, is that just like with AutoML, of course we're
+going to automate writing code.
+In fact, I'm going to show some of that, that if you know what you're doing, you can be
+10 times, 100 times faster writing code, so why wouldn't you use a tool that would do
+that?
+Likewise, the integrations built into here.
+So I think these are really powerful tools that are mainstream now.
+Also the cloud environments are often more powerful than regular desktop environments.
+They're disposable.
+You can create tons of them.
+They're preloaded with all the different things that you want, and they come with every flavor,
+right?
+So if you're developing on AWS, use the AWS Cloud9 environment.
+They have a new tool as well called Code Whisperer that's coming out that'll help you do AI-assisted
+programming.
+The Google Cloud has a deep integration with their tool set.
+It's co-located.
+All these are co-located in the same network, so you don't have to worry about copying data
+back and forth.
+They're all lightweight, and they're in the browser, and they're all loaded together.
+There also are these other things that I'll mention today and I'll cover, which are SageMaker
+Studio Lab, which is a notebook-based solution that's competing with Google Colab, and then
+there's Colab, which is a Jupyter-based solution that lets you use GPUs.
+And I think many people are aware of Colab, but I think it's worth just bringing up for
+people who are not, is that what's nice about Colab is that it has deep integration with
+other environments like GitHub, with Google Drive, et cetera, and it's a great place to
+actually just try out ideas.
+And in particular, one of the things that I would recommend knowing about, especially
+for machine learning, is that you have access to a GPU, and so if we take a look at this,
+I have the pro version, which gives me access to faster GPUs.
+If I connect to it, one of the things I can do is I can actually go to a runtime here,
+and I can actually say change runtime type, and I can pick what type of runtime that I
+would like to use.
+So in this case, we can see here that I have the ability to use a GPU, to use a TPU, these
+are hardware accelerators, I'll pick GPU, and I also can select a high RAM environment.
+So this is for the subscription, there's a free version as well, and if I go through
+here, once I've selected that runtime, it'll show me all of the details of what's happening
+right here.
+So we can see here that I've got 25 gigs of RAM, which is a pretty comprehensive amount
+of RAM, and I think I have 166 gigs of storage as well that are available, and I have access
+to a GPU.
+So then when I run this, we can go through here, and look, it even tells me exactly the
+GPU that's available, and says what percentage of it is actually being utilized, et cetera.
+So this, I think, is a very common place to play around with things.
+Now, as well, as I mentioned before, you have access to high memory, so this really comes
+in handy if you're using pre-trained models, and if we take a look at this, it says, look,
+your runtime has 27 gigs of RAM, you have high memory.
+So the main takeaway here is that this is a great place to train models, use pre-trained
+models, and you can actually do a lot of the work directly inside of a Colab notebook.
+And so if I was going to build, maybe from scratch, a new environment, and start to build
+out MLOps code, I think this is one of the tools I would start with.
+So let's go ahead and do that.
+I'm going to go over here, and I'm going to go to my GitHub repo, and I'm going to create
+a new repo where I put MLOps type artifacts.
+And so I'm going to go here, and I'm going to go to repositories, like this, and I'm
+going to say new repository, and we'll call this MLOps starter environment.
+And what's nice about using GitHub here is that it can directly integrate with Colab
+notebook, as well as the SageMaker Studio, which is also a notebook-based environment.
+So really nice filter point for those environments, and also it works with their own cloud-based
+development environment.
+So let me actually diagram that out.
+I think that would be a good thing to explain.
+So I'm going to go to Sketchpad here, and I'm going to sketch this out.
+So let's go over here, and let's build out a diagram of what this workflow looks like.
+So if you're going to build a kind of an MLOps ecosystem for an organization, or even for
+your own project, I think the center of the universe would be to do GitHub, or something
+similar like GitLab.
+I personally think GitHub is pretty good.
+I'll put GitHub down here.
+I think GitHub has some advantages if you're into technology, but in the center of the
+universe we have GitHub, and then over here we have Colab, which we're about to set up,
+which is a Jupyter-based service that can communicate back and forth with GitHub.
+And so why would I use Colab?
+Well, they have GPU and RAM, right?
+They have very powerful machines here.
+And I'll put in the corner here MLOps tools, right here, MLOps tools.
+So this is a nice workflow.
+In addition though, we can also use the SageMaker.
+So we'll just call this SageMaker here.
+And it has StudioLab, which is a similar product, like right here.
+And that can go back and forth.
+And so these would be, on the top here, these would be all notebook, right?
+These are all notebook-based environments, just like that, right?
+Now in terms of a development-based environment, if I want to go more on the software engineering
+side, which a lot of times for building things with pre-trained models, you do want to use
+a more dev kind of environment, we would use an integration with code spaces.
+And that's what I'm going to also show in a second here, is the code spaces.
+And so what's great about that is, we'll call this code space, is that it has the ability
+to allow you to customize the environment, and also it allows you to use Copilot, which
+can help you write code much quicker as a result.
+So this is kind of to lay the land, and this is what I'm going to set up very quickly.
+So now that we got that out of the way, let's go back to our environment here, MLOps starter
+environment.
+I'm going to make this public, and I'm going to say, this is an example of a repo that
+can be used for MLOps.
+There we go.
+And I'll say, read me file, and we'll add Python file as well.
+And the gitignore is important so that you don't check in garbage, and then add some
+kind of a license.
+I always like Creative Commons.
+There we go.
+We got it created.
+So one of the first things that we can do to check in code here, is that, and again,
+this is github.com, N-O-G-I-B-J-J, MLOps-starter environment, which I can give to people.
+So the first thing I would do is check in a notebook.
+And so if we go back to this environment, I'm going to say file new notebook.
+And one of the nice things about Colab is that it is really great to build out the first
+part of a data science structure.
+And so we'll call this Data Science 101, right here, Data Science 101.
+And when I teach a machine learning class or data science class, I always tell people
+about this, that it's important to create a structure for your project.
+And I think it's important to do this.
+At the very beginning of your project, you have an ingestion phase.
+And so the ingestion would show the first import of the data.
+And then you have exploratory data analysis phase.
+We'll call this EDA.
+And then we have a modeling phase, right where you do some kind of modeling.
+And then at the very bottom, we have a conclusion.
+And I think this is a good structure for many people to consider.
+Because if you use this structure, you can always collapse things like this.
+And then you can share this with other people, and there's a table of contents.
+And even further, if we go here, and I check this into GitHub, we have a link back directly
+to GitHub.
+So I'm going to go ahead and save a copy in GitHub, and let's try this out.
+So this will take just a second to build.
+There we go.
+And I think I have access, I may not have set up the integration with this repo.
+And I always forget how to do that.
+I can see real quick.
+We can say, how do I integrate with GitHub?
+Let's see, frequently asked questions.
+How do I integrate with GitHub, and it should give me in Colab.
+Let's see what they say.
+Okay, blah, blah, blah, blah, blah.
+So mount it, we got that, we got that, change the directory.
+We don't want to do that.
+Well, it's not that big of a deal.
+There's an easier way to download it.
+I just wanted to check it into the repo.
+All I have to do, this is actually another way you can integrate with it.
+You can just say file, and you can actually download as a.ipynb, and now I just go back
+to this repo, and I can just say add file, and I can also do it this way as well.
+So there's lots of ways to integrate with Colab Notebook, and if I go ahead and I commit
+this right from the browser, we'll have our start kit.
+There we go, and if I click on it, I think it'll even have the, well, it doesn't have
+the Colab link into it.
+That's the one thing you don't get, but you can just check it directly into there.
+There's a way to integrate it so that the Colab link always shows up.
+This particular repo, this organization, I didn't set it up, but I have it in other organizations,
+but that's the first thing to be aware of is that it is a good idea to, when appropriate,
+use Colab to try out different ideas, and in fact, the other thing about Colab is that
+there are, if you go to the tutorial here, which I think there's an example, let's see
+here, of different tutorials, let's see here, frequently asked questions, let's look for
+the tutorial, we'll just say Colab tutorial.
+There's a bunch of examples that are good to take a look at that show you some of the
+things you can do, including using integration with machine learning systems, et cetera,
+et cetera, and in fact, if you go to the machine learning Colab as well, there will be, there
+we go, Google Colab for machine learning projects.
+There's a bunch of example notebooks you can Google for, and you get a lot of different
+things for Colab.
+So that's Colab.
+Now let's shift gears here over to SageMaker Studio Lab.
+If I go to SageMaker Studio Lab, there's another place to do things in a free environment,
+and this is an emerging product that I think is really great for working with machine learning,
+and you do have to request a free account, so there is a waiting list.
+I do have a free account, but I have no guarantee that someone will get access to this, but
+let me just show you the way it works.
+So if I sign in here, if we take a look at this, what's cool about it is that GPU runtime
+limits have changed.
+You can use a GPU for up to four hours at a time and up to eight hours in a 24-hour
+period.
+So what's cool is you get actually free GPU available with SageMaker Studio Lab, and let's
+go ahead and do that.
+Let's go ahead and select GPU, and now I'm gonna go ahead and I'm gonna start my runtime.
+Let's go ahead and, oh, there's no runtime available, so it looks like people are doing
+deep learning training on the GPUs, so I'll just go ahead and do a CPU runtime.
+So that's one of the things about a free service is sometimes that happens, a lot of people
+are using the free service, and so you have to be prepared to use the CPU-only runtime,
+which I think in some cases works very well.
+Okay, so we got the SageMaker Studio Lab set up, and let's take a look at some of the things
+that you'll have at your fingertips when you're doing things inside of SageMaker Studio Lab.
+So the first thing to be aware of is it runs Jupyter Lab, and so there's an integration
+here directly with Jupyter Lab.
+So in some sense, it's much less proprietary than Colab, and it also gives you the ability
+to save the state.
+So if you're training a model inside of this environment, you can actually retrain it in
+the future and have checkpoints, and you don't have to worry about the problem with Colab,
+where basically everything goes away because it's a reset environment.
+So that's a pretty big advantage here of this environment.
+Now, the place that I think is a good place to start is to go to initially the SageMaker
+Studio Lab examples here, and if we go ahead and we take a look at this, we can say, let's
+take a look at the Getting Started Guide, and let's see what they say here.
+So here's the Getting Started example.
+It says your SageMaker environment has 25 gigs of storage, CPU or GPU runtime, it has
+integration with Git, Repos, Conda, Jupyter Lab extensions, and you can just go ahead
+and start running code.
+So if I do a shift return here, you can see here I was able to run code, and you can also
+create your own notebooks and then integrate them directly as well.
+So you can also download things and check them into a project.
+So if I just took this, a notebook here, and I just say File, Download, Getting Started,
+we could also go to this notebook, or repo, and I could also add this, upload the other
+environment as well, and now we have the SageMaker Studio Lab and we have Colab, we've tried
+them both out, and they're both integrated inside of here.
+Now there is a way that they can add a link to SageMaker Studio, which I don't know where
+that link is off the top of my head, but there is a way to actually have a little badge here
+as well for the, so that it'll open up automatically in this kind of environment.
+Now there are a couple things that are pretty cool about this as well, like one, you can
+actually go to the new, and you can actually even just run a regular terminal, which is
+different again than Colab, this is more of like a sandbox environment, and if I wanted
+to run the top command or something like that, I could see what's going on on my machine
+and do other things that are related to it.
+But it's a nice starter kit for maybe moving eventually things to the more commercial platform
+of SageMaker, and so I think this is a pretty good environment.
+So probably one of the things that will be fun to play around with here is to just take
+a look at one of the examples here, and so let's take, I don't know, like natural language
+processing, here we go, NLP disaster recovery, and so let's go ahead and select this, and
+this would be fine-tuned locally for machine learning translation on COVID-19 health data
+by using Hugging Face.
+So notice here what's pretty cool about this is that it actually allows us to integrate
+with the pre-trained models.
+So I think we're going to see a lot of this now, how pre-trained models are going to be
+a big deal.
+And so this one, it says, look, this notebook's designed to run on a G4 DN xLarge GPU.
+If you're not using that, please restart and help train your model in a matter of minutes
+rather than hours.
+So we probably don't want to use this one because it is actually going to do GPU.
+It wouldn't finish, essentially, but we can take a look at this, and so we can run everything
+except for the GPU code.
+So the first thing would be install all the necessary packages.
+So if we go through here, it's going to write out a requirements file, and this would be
+a common step, and then it's going to go through and it's going to do a pip install.
+And notice that it's going to install the PyTorch library as well as it's going to install
+Hugging Face transformers.
+The Hugging Face transformers would allow you to interface with the pre-trained model.
+So it's got a tight integration with some of the cutting-edge stuff that's happening
+in terms of pre-trained models.
+And so this will take just a second.
+You'll see here, and in fact, we could even have another shell running at the same time.
+We wanted to watch what my system is doing.
+I could just do this, and I could just double-check.
+It doesn't look like it's doing anything.
+I think it must have installed.
+There we go.
+So it looks like it installed, and now we're going to import IPython.
+So please make sure to restart your kernel using the newly installed.
+So I'm assuming that we want to restart this kernel then.
+You may need to restart the kernel.
+Okay, so let's do that.
+Let's say restart kernel, and let's see what happens.
+And now we can do this, and then it says, explore the available datasets on translators
+without borders.
+Now we need to download a pair you would use for training a language translation model.
+Here we go.
+So here's the path to the data.
+We would get the data.
+And notice how quick it is as well, because it's on the AWS ecosystem, and then we can
+go through here, grab this data, and unzip it, and then finally extract the different
+stuff, parse it.
+So you get the idea here.
+The idea here is that you basically, for free, get access to a complete environment that
+you can use to train and customize machine learning models.
+And then the step three would be, now we would use Hugging Face and go through Hugging Face
+and do all the training.
+Now we're not going to be able to do this, because as I mentioned before, we'll just
+run through some of this code, is that we don't have access yet to a GPU.
+But we'll just take a look at what it would look like.
+So fine tuning a machine learning translation model, I think this is really what we're going
+to see in the future, is more of fine tuning versus training completely from scratch.
+And so this is what I won't run.
+But if I did have access to a GPU, although I guess I could run this on Colab or something
+like that, full training Hugging Face trainer available right here, you would go ahead and
+run this translation.
+You would give it the path to the model.
+You would say what it is you wanted it to do.
+And then you would say how many epochs to run.
+And then it would go through and it would run it.
+And at the very end, you would actually then import the model that you fine tuned, and
+then basically go ahead and do an evaluation.
+So these notebook-based environments are really powerful.
+And I think they are a big part of the future of some of the things that we're going to
+be doing with machine learning operations.
+Now as I mentioned before, this is the Colab SageMaker Studio.
+There's another one too, like everybody does these notebook-based environments, is Databricks,
+I think is another one that I think is an emerging solution.
+And so let me just briefly show that one as well.
+So if we go to Azure here, and I go to Databricks, let's just kick the tires on what that looks
+like.
+So Databricks, in a similar fashion, has this concept of a notebook-based workflow.
+And you would also do similar things.
+You go through, create a notebook, test or whatever.
+And then inside of that notebook, you would attach to a cluster of machines, in this case.
+And then you would do your training jobs.
+And then what will happen is that it would actually get access to the file system, which
+is run under data right here.
+And it would mount, in fact, a database file system inside of Databricks.
+And then finally, it would train a model, and it would put that model inside of a registry
+right here.
+So this kind of takes it to the next level, which is still notebook-based, but the models
+are living in a more of a proprietary-based system.
+So that would be a good thing to maybe sketch out real quick if we go.
+In fact, I don't even need to sketch out, because I already have a diagram of this.
+Let's go ahead and take a look at this.
+Let me show you a diagram of Databricks Zero-to-ML Ops.
+And I believe it's right here.
+Let's go to this slides right here, slides, yeah, this would be a good one to show.
+So essentially with Databricks, and I'll just maybe demo this real quick, that the notebook-based
+workflow is, in fact, a huge component of building out machine learning for many platforms.
+And so some of the things to be aware of is that, in terms of Python, it by itself is
+very slow.
+And in addition, that Omdahl's Law, which is the concept of distributing things, isn't
+always going to be the perfect solution.
+And you can see here that Python can be 64,000 times slower than C. And we also see that
+distributed computing has also gone down, and we have problems with distributed computing.
+And so one of the answers is these things I just showed, right, these TPUs, GPUs, those
+kinds of things, and also specialized systems like high-level machine learning systems.
+Now Databricks, what it really does, if we take a look at this, is it's a managed system
+that does clusters, and in particular, you could either have a single node, a standard,
+or a high-concurrency cluster, and you can pin the clusters, you can do custom containers.
+But in general, the idea with Databricks is you spin up a cluster and you do a quick
+start.
+So if we click on the quick start guide here, we can take a look at this, is that there's
+a notebook that kind of walks you through how to create a cluster, how to create a notebook,
+then how to run SQL to do things with it, and then eventually train a model.
+So that's kind of the high-level lay of the land here, and I guess it would be worth sketching
+this out, is that there always is going to be a layer with MLOps that involves some kind
+of a notebook.
+And so in fact, let's just build this out and just say a notebook for MLOps is probably
+going to be involved with any MLOps workflow just because of how useful they are.
+They're just one of the tools, and so one of them, it could be, you know, Colab could
+be one.
+It could also be the, we'll just say SageMaker StudioLab, just because it's a lot to write
+right there, and then we also have Databricks, and we'll just also say DB since it's a lot
+to write.
+We also have just traditional SageMaker, let's call this SG as notebook.
+We have things like Azure ML Studio is another one, Azure ML Studio is another one, and then
+we have Google also has something called Vertex AI, so these are all legitimate places, we'll
+call this Vertex AI, Vertex AI, places where you're actually going to use a notebook.
+Now, in general, though, the notebook-based workflow, you know, what are the primary use
+cases, we'll call this use cases, would be that you're going to train a model, right?
+So you're going to train a model or you're going to fine tune a model, right?
+Those are generally the use cases that you'll see here, and there's also Snowflake as well.
+We also could put in Snowflake, Snowflake is another one, right, that has a notebook-based
+workflow, but if you're going to get into developing code, there's some other tools
+like cloud-based development environments that are available, so I'm going to focus
+more in this talk today about more the developer-based workflow, but I did want to just briefly mention
+that a lot of people are using notebooks for things, although some of the newer tools are
+more code-based, and so let's now shift into the development environment world.
+So I'm in here, right, I've got some things checked in, but now I want to start doing
+development inside of a cloud-based development environment, how would I do this?
+One way to do it is to go to this, go to code here, and this is a code space that I use
+as a teacher, we get access to code spaces, you can purchase a code space from GitHub,
+it's a great place to do development work, organizations like corporations can select
+them, if I click on this button right here, and I go to configure and create code space,
+I can actually make a pretty powerful code space, so I'm going to go ahead and do that,
+I'm going to say a 16-core machine, and we'll go ahead and say create code space, alright,
+here we go, and let's make this thing big, so the idea here is once you create a code
+space inside of an environment like this, this is really kind of a dream scenario for
+MLOps, because of the fact that, of how much you can customize it, what are the things
+you can do with it, how you can use pre-trained models, you know, and I find myself gravitating
+towards it, so the first thing I typically do is just change the color theme, and I actually
+like, this is kind of like a beta theme here, because for accessibility, I think it's good
+to do additional color themes, and we can say GitHub, or Visual Studio, Visual Studio,
+you can pick whatever color theme you want, but, let's pick color theme, Dark Visual
+Studio, anyway, that's good enough, Dark Visual Studio is good enough for me, there was a
+really cool one though, that I liked, which was a beta one that was for accessibility,
+but I don't see it anymore, they must have changed it, unless it's somewhere else here,
+but anyway, we got it, the first thing I would do when I'm going into one of these kinds
+of environments, is to start to customize the environment, so how would I do that? Well,
+one of the ways I could customize it is by doing Shift Command P, which will add this
+command prompt, I forget if it's, or is it just Command P, no it's Shift Command P, yes,
+Shift Command P, which adds the command prompt, and one of the first things I would recommend
+is to customize your GitHub Codespaces environment, so I'm gonna say dev container, in this case,
+this is the thing I want, configure the development container features, and so what we'll do is
+we'll add basically a customized container development environment, so if I go here and
+I say show all definitions, we could pick all kinds of different things, we could pick
+like Jupiter data science environment, if I was gonna do a lot of Jupiter programming,
+I could pick Python environment, if I wanna do Python programming, all kinds of really
+cool stuff that you can do inside of this particular environment, I'm gonna select Python
+3 here, because I'm gonna do more of a developer workflow to start with, and then I'm gonna
+pick the latest version of Python, notice it asks for node, I don't really care about
+that for now, but this is another thing to be aware of, is that you can do a lot of coding
+with cloud providers, and I'm gonna get into that today, and I'm gonna show how you can
+actually do development with other cloud environments, so if I wanted to, for example, do development
+with AWS, I could just click this button, and then later I would need to install my
+API keys, and we'll go ahead and say okay, so here we go, it says hey, we notice you've
+made some changes, and then I could decide if I was good with the changes that were made,
+and really the two files that are important to change would be the devcontainer.json file
+here, and the dockerfile, the big one to be aware of here is that this is where I would
+install different packages, right here, and so because I've already customized this in
+the past, I'm gonna copy some stuff from another project, so I'm gonna go to here, I'm gonna
+copy one I did recently that is EWS related, and I'm gonna look at my devcontainer file
+here, so this is what's nice about this, is other people could clone my project, and they
+could take some of the things I've done, so I'm gonna look at this dockerfile, and I can
+see oh look, I made this line of code right here that I actually wanna copy, so let's
+go ahead and do that, let's go back to this dockerfile, and we can just put that line
+of code right here, there we go, so run the update, and then install vim, because I like
+to use vim for editing config files, so that's one change I'll make, and then if I go to
+the other file as well, I can go to my environment, and if we go to the devcontainer environment,
+it creates a json file that I can customize, and I can look at what I've changed in here,
+I think the big thing I changed was I added some extensions, so these are capabilities
+of the environment, and I personally think that the copilot is probably one of the biggest
+ones that I would recommend, but let's just go ahead and install these two tools here,
+I could probably do raw so I don't mess up my formatting, so I'm gonna go to this, that
+looks good, and if I go back to this environment, we could look at the extensions, and I could
+just copy and swap that out, and we can say, we don't need C sharp in this environment,
+so then the only other thing that I'll need to do, that I like to do is a post install
+command, so that I like to set up a virtual environment when I set up a new environment,
+so what I'll do next is I'm gonna create a requirements file in my project, and I'm going
+to create a make file, so that I actually have the ability to really kind of have it
+all ready to go when this thing resets, and so if I scroll down here, see this command
+right here, I can actually say create a virtual environment, go ahead and put the virtual
+environment in my bash RC file, which is right here, and then run make install so that everything
+installs, and this should work, if I go back here, and I just paste this into this right
+here, so as long as there is some stuff inside of my make file, which is empty right now,
+and there's stuff in my requirements file, so I'm gonna change that real quick, I'm gonna
+go to this project here, I'm gonna select the make file, like that, and I'm gonna paste
+this in, so why would I do a make file, the idea here is that it's less work to have certain
+steps that I run all the time, so I like to install my software here, I like to have tests
+for my software, format it, lint it, and then for the requirements, I also can look at that
+other project, and just see if there's some requirements that are probably gonna be something
+I'd want to use, and we can look at these, like Boto, that's to talk to AWS, which I'll
+get into in a little bit, PyLint, Click, some testing tools, maybe like FastAPI, because
+I want to build a web service, the request library, OpenAI to do AI programming, maybe
+Hugging Face Transformers, these are all kinds of things that maybe I want to put in there
+at first, I'm just gonna copy, I'm gonna copy, sure, let's copy all of these, why not, and
+I go back to my other project, and go to requirements, and we paste them in there, so now that I've
+got all those inside, I just do the shift command P again, and I would say rebuild,
+there we go, code space rebuild container, and so what it's gonna do is it's gonna run
+all those commands that I set up, and now it's gonna be permanently stored in my project,
+so basically I always can restart from again, I can even clone this project, and it's DevOps
+and MLOps friendly, so I think this cloud based development environment is a pretty
+huge win, in fact, for doing MLOps, especially when you start to get into PyTorch, TensorFlow,
+those kinds of libraries, it can really be complex to set things up, and not only can
+you do this, but you can even create this as a container, and even push this into the
+GitHub environments, and they can store the container, so it'll build really quick, so
+you can see here, this will take a little bit of time to go through, and run all this
+stuff, and get it all set up, and install the tools, and all that kind of stuff, but
+in my opinion, it's worth it, because not only did I create my development environment
+here, here we go, looks like it's getting ready to get going here, but I also can build
+tests against this, so here we go, and look, it even created my virtual environment for
+me, which is awesome, installed all this stuff, and it installed one of my favorite tools,
+which is, if we go to extensions here, look, we have Copilot installed, which means that
+I can write code very, very quickly, and so we're basically in a great spot here for me
+to take another break, so let's take a break for 15 minutes, and when we come back, what
+I'm gonna do is I'm gonna start building code from zero, that is using pre-trained models,
+and solves problems using pre-trained models with both OpenAI, and with Hugging Face, and
+so I'll do it inside of this Codespace environment, so if you have any questions about any of
+this, or if you have access to Codespaces, you can take a look at this repo, and just
+clone it if you want, and keep moving, so if we go to this environment right here, so
+I've got all this stuff set up, you can see I was able to install some certain things
+inside of the Codespace environment, and why would I do this, and really, what does it
+get us?
+Well, I think the big thing is that once you've got this kind of environment set up here,
+that it does make it easier to start doing AI-level programming, and using some of the
+new technologies, and so let me just briefly show you two different pre-trained model ecosystems,
+one is the OpenAI, and the second one is Hugging Face, so to start with, I'm gonna go over
+to Hugging Face, and let's talk a little bit about what Hugging Face is, so Hugging Face
+is pretty interesting, because it's like GitHub, but for doing datasets, and for doing models,
+and if we look at this, and we click on models here, one of the things that you can do with
+models is you can see that it's growing at a very fast pace here, that there's just all
+kinds of different things that are being solved in an open source way, like image classification,
+image segmentation, speech recognition, token classification, audio classification, summarization,
+all this stuff here, libraries, PyTorch, TensorFlow, JAX, all these kinds of libraries as well,
+there's different datasets that you can download, different languages, so there's a ton of features,
+now in here you can use a free account, and if we go through here, we can see the different
+things that you get with Hugging Face, I think this is probably good for a lot of people,
+if you just want to try out Hugging Face, I have this one, so that I have the higher
+ability to do inference via the API, and I also have been playing around with this new
+feature called Spaces, and I'll show you this real quick, so what's cool about the Spaces
+environment is that you don't even need to use Copilot and Codespaces and all that kind
+of stuff with GitHub, you could just develop right inside of here, and I guess what we
+could do is just play with this real quick and I could show you how you would build one,
+so if you want to create a new space, actually it might be better to just look at how one
+works first, so here's Spaces of the week here, but I could also go most likes, and
+we can see that this is one of the ones that a lot of people have been playing around with,
+which is called Stability Diffusion, and if we take a look at this, the reason why it's
+so cool is you can build AI art with it, so if I wanted to do like, for example, Mickey
+Mouse combined with, I don't know, like a horror film or something, so I want to combine
+some weird things, like it would go through and try to make some kind of a creepy Mickey
+Mouse image for me, and so behind the scenes, though, while this thing is working, I can
+actually open it up in a new tab, so this will still be cranking, that I can see exactly
+what was done to create this, so we can see that there's an app file right here, and this
+is using the visualization technology, Gradio, which builds the UIs, we have some code here
+that are imports, like this is the PyTorch code, and then there's only a little bit of
+code here, right, like there's an infer right here that does the stuff, and then there's
+some coloring for the prompt, and so the only other thing you would need to care about would
+be the requirements right here, and you just need to have these requirements installed
+in your space here, so pretty easy to do a hollow world, a hugging face, and so you can
+either run it in here, or you can run hugging face locally, we'll actually do both, so if
+I go back here, I don't know how long this will take to build, but it's funny, it doesn't
+show me the amount of time it'll take to build it, but it can take anywhere from, you know,
+like 60 seconds to a few minutes, I'll give it a little bit of time here, and let this
+keep running, and maybe we'll come back to it, so what I'll do is I'll just make my own
+space while that thing's running, so I'm gonna go ahead and I'm gonna go to spaces here,
+and I'm gonna say create new space, and we'll call this, you know, how about summarization,
+summarize, test, and I don't know, creative comments, there we go, and then you pick what
+is the visualization technology you wanna use, I usually use Gradio, because that's
+the one that's supported most closely with hugging face, and then we'd go ahead and say
+create space, and then from here, it'll give you like the start of a project to play around
+with, now one of the things you can do actually, is you can actually build this directly inside
+of the browser, so you don't actually have to clone it, and so if I go through here and
+I copy this code here, and I say create it, we can just paste that inside, just like that,
+and I'll go ahead and commit this, and let's see if this will build for us, there we go,
+and I don't know if I even need a requirements file, I may not, if I just use, if I just
+use this, and notice you can see that it's actually building, and you can even watch
+the logs, as it's building as well, so you can build stuff completely inside of hugging
+face and try out their different models, without actually even needing to go to a local environment,
+so we'll let this thing build for a second, it's still building, I guess I can go back
+and forth and see which one does, so this thing's still building, so we'll just kinda
+go back and forth and see which one builds first, so this should take hopefully just
+a second, I don't think it needs, you can add a requirements if needed, you can also
+add a packages, but it does say that Gradio is pre-installed with this, so there you go,
+running, so I think it's good, if I go here, summarize test, right, you know, hello, submit,
+there you go, right, so it does nothing, now I had previously built a example here, so
+if we go to this, and I go to, I think it's this one, demo, let's see if this is the one
+that I have, yeah, I think this is the one that I built a while back, so it's a summarization
+one, so what I do in this case is I say from transformers, import pipeline, import Gradio,
+I then select one of the models, so you could basically just go to the models right here,
+and you just find, you know, one of the models here, like in this case, I could say, you
+know, summarize, like that, and I just find some model that I want to use to do text summarization,
+probably sorting by, you know, downloads or something like that, and then I do a prediction,
+in this case this is a prompt, and then it builds out a user interface, so this is, in
+my opinion, still MLOps, right, but we're just fast, we're getting into the fast lane,
+and we're building something very quickly, and if we look at the requirements here, you
+can see what's in the requirements, Gradio, transformers, TensorFlow, and so if I want
+to test the app out, we just enter the block of text to summarize, so what I could do is
+I could go to the Python language, let's do that, let's go to Wikipedia, and let's just
+type in Python, let's find the Python language, here we go, Python programming language, right,
+this looks like a good page, let's grab, I don't know, let's grab a bunch of this text
+here, let's, I don't know how much of it do we care about, how about just this part, we'll
+grab here, history, there we go, and if I go to my app, where is my app, here, we paste
+that in, we can just say submit, and then what it's going to do is it's going to use
+that pre-trained model, go through, crunch, crunch, crunch, crunch, crunch, and it does
+take a while because this particular part of the problem is not particularly quick,
+but then it's going to eventually summarize it, so while it's summarizing, I can go back
+here and we can take a look at this, wow, it's still crunching this one as well, so
+we have two slow models here being used for inference, there we go, so this one actually
+finished quicker, it says Python was conceived in the 1980s by Guido van Rossem at Centrum
+Informatica in the Netherlands, the programming language, so this basically was able to summarize
+the history and shrink it to a form that I could use, now what's cool about these demos
+as well that you build is one, you can show people that you know how to build machine
+learning applications, but you also can integrate it with GitHub, and I do have a repo that
+does that, that does a full end-to-end solution, so what I can do is open up another tab here,
+slide this over, and go to GitHub, and just show you a hugging face one that I built a
+while back, and we go here, and we say, you know, hugging face CLI with, let's see, hugging
+face demo, probably this one, yeah, I think this is the one that I have, and so this is
+actually the same project, so I can update it inside of this environment, and I can open
+it in code spaces, run it locally, and then push this directly to hugging face, and how
+can I do this?
+Well, if I go to this right here, hugging face workflow, take a look at what I do, so
+I actually have a file that checks out my code, I added the remote, I have a secret
+built into my project inside of my GitHub environment, and I push this every time I
+make a change, so if I want to, I can actually edit this file as well, so might as well,
+since I have talked about it, and you can see how the project works, which is that I
+have a spaces app right here, and it is using Gradio, and it does text summarization, that's
+what we covered, and the other thing I can do, though, is I can also use hugging face,
+get an auth token, and I can push that auth token into the secrets environment of here,
+and I can develop it in a more rich environment, and I can grab any model that I want, and
+whenever I make a change, it'll push that change back to the spaces environment, so
+I also can do full MLOps pipeline, so just because I didn't create the model myself,
+in my opinion, doesn't mean it's on MLOps, we're still building a solution with hugging
+face, so I think this would be a good one to play around with here as well, so let's
+see if we got our final thing built, anyway, this thing may take forever, but it is cool
+to play around with if you want to play around with AI generated art, I've done all kinds
+of them, I don't know how long this one will take, now the, I guess the next thing for
+us to do is let's see if we can build some stuff now with hugging face, and in fact,
+I've got an environment that I was working on that I'm just going to launch because it's
+got everything that I need inside of there, and I believe it is this one, let me double
+check, is this the one, or is it heuristics, let's see here, I think this is the one, yeah,
+this is the one I was working on, so I have an environment that's kind of similar, that
+inside of here, look, it's got an app, it's got all kinds of things inside of here, this
+could be a repo that allows me to build tools on top of hugging face, and in fact here we
+see all the different things that I've got inside of here, so let's go ahead and launch
+this code space, which is similar to the one I just set up, and let's take a look at how
+we could also build hugging face models by using a local version of it, but a local version
+that's running in a cloud-based development environment.
+Okay, so we're in here, and we've got this environment set up here, now a couple things
+that I'm going to point out are that there's not a lot of code, so the only thing that
+I have here is I've put the transformers, which is the library to talk to hugging face,
+I have a chameleon tool, I have tensor flow, I also use beautiful soup to parse pages,
+I have a library called Wikipedia, which can grab pages like the one I just did, like the
+python page, I have linting for pylint, and I have ipython, so I think this would be a
+good one to kind of mimic, if you wanted to develop against it, and I don't need to do
+any secrets or anything, because I'm just going to use models that already exist, there's
+no authentication, so this is completely replicatable, and I also did similar things, like I have
+an environment that's customized and all that stuff inside of here.
+So let's go ahead and kick the tires and take a look at what actually is built here.
+So the first thing is that I import the chameleon tool library, and then I also build an import
+from hugging face, so this is import transformers, now it is weird that it's not recognizing
+that I've got all these libraries, but we don't care about that for now.
+I then wrote some code here that extracts text from a URL using beautiful soup, so any
+URL we pass in here, it'll return back the text, and then I have a function that uses
+Wikipedia to return a page, and then I have something that actually goes through here
+and processes the text using kind of similar code to what was happening in the spaces thing
+and then this will actually go through here and it will print the summary text.
+Now the next thing that I like to do is I add a chameleon tool that allows us to either
+pass in a URL, pass in a file, or pass in a Wikipedia page, so either of those three
+things can get summarized, so now we're actually using this to build useful tools, and I can
+also summarize text by using this tool.
+So let's try it out.
+So let's go through here, I'm going to try this one out first, I'm going to say.main,
+so we're going to pass in the URL for the Python language here, and I think I need to
+put this in quotes so that it won't mess up, so there we go.
+So we're going to tell our hugging face summarizer, go to Wikipedia, read the page for me, do
+my homework for me, and then summarize it for my book report.
+We can go through here, and this should go through here and summarize it.
+And because again this is a super powerful environment, it should at least be able to
+handle some problems fairly well, even though you will see a lot of weird output because
+hugging face is still a little bit science fiction here, you'll see all kinds of weird
+output and you just have to kind of ignore that stuff.
+And we'll let this thing keep running.
+But at the very, very end, it will print out the results.
+So in this case, we're actually parsing in the URL, but I could have actually just put
+in any Wikipedia page as well because I have code for that.
+But let's first watch it summarize, there we go.
+So look, it says Python is a high-level general purpose programming language, it supports
+multiple programming paradigms, so this is pretty cool that just in 70 lines of code
+or whatever I can build this.
+And then if I want to call it the other way, so if I want to call it by just passing a
+Wikipedia page, we can do that as well.
+So if I maybe open up another page here and we just go to Wikipedia and we just find whatever
+is a popular page today, sure.
+This is some kind of like an anti-nuclear advertisement, which is always a good thing
+to be aware of.
+So let's paste this in and we'll just say this and we'll paste the Wikipedia page in.
+So we don't have to put a URL or anything, this one will be smart enough if I put in
+the flag Wikipedia to use the function that will summarize it.
+There we go, and no such option, a Wiki page, sorry, Wiki page, I have the wrong option,
+Wiki page, which maybe is a bad word.
+So this will then go through, goes through the Wikipedia library, grabs it, gets me the
+text from it, then passes it into the pre-trained model.
+Yeah, this is weird though, all this output.
+Now I'm curious if I did an update and I changed the version, if that would fix things, which
+I might do.
+But let's go ahead and try this out, there we go, look, pretty cool, Daisy is a controversial
+political advertisement that aired on TV, was criticized for using the prospects of
+nuclear war to imply he would wage a nuclear war that is considered one of the most important
+factors in Johnson's landslide victory.
+There we go, so I got a really good summary that I could tell maybe somebody in elementary
+school about some kind of a political advertisement, so pretty useful little tool here.
+And also if I want to check the DevOps components, because I mentioned that earlier, we can check
+it out, we can say, okay, is my code high quality?
+Let's go ahead and say it, pretty good high quality code, the linting works well.
+Then if I wanted to as well, I could also set up continuous integration and make sure
+that as I make changes that I still am continuing to have high quality code.
+So let's go ahead and do that, I think that would be a good thing to play around here
+with with Hugging Face is to set up the next level of things that we could do.
+So I'm going to go back to this, go to GitHub, and I'm going to find this repo.
+And I'm going to go to the Hugging Face repository.
+Hugging Face, here we go.
+And inside of this repository, I'm going to select this icon right here, which has actions.
+And actually, I've already set this up, so we don't need to do it.
+So basically, what this will do is that it's going to use the environment that I've customized
+that I showed earlier, that will allow us to install the code, lint the code, test the
+code and format the code automatically.
+So every time I make a change, we're continuously improving the output of the project.
+So this is something I would always recommend in a GitHub kind of environment is to make
+sure that you're doing continuous integration.
+And this is a format to do this.
+So now that I got that working, I think maybe the next thing to do would be to show how
+I built this tool and to build it again.
+So I think the first thing that we could do is we could build a new file, and we could
+just call this, you know, hf CLI example, like that, hugging face CLI example, perfect.
+Although I'm going to do, I'm not going to have the hyphens.
+And let's just make this without any, that way I have a lot of flexibility if I want
+to import it or whatever.
+So we'll call this h hugging face CLI.
+There we go.
+That's pretty good.
+Hugging face CLI.
+And then if I click on this, now I can start to use this AI assistant, which is, which
+is copilot.
+We haven't even tried it out yet.
+And so the, what I would need to do is maybe prime the pump a little bit.
+So let's, let's give it a few things that I'm going to need.
+Like one is I'm going to add a shebang line, which says that I'm going to make a command
+line tool out of this.
+So I'm going to go ahead and chmod that, chmod plus X hf.
+And then I'm going to, now if I run it, it should just do nothing, right?
+Like, which is what I want.
+And then I might want to, I might want to copy some of the same things here that we're
+doing.
+But I think I only care about a few of these things because maybe I want to make a simpler
+tool.
+So let's, let's do this.
+Let's, let's say import CLI is good, import, no, maybe we'll do the, the, the entire, we'll
+do the entire thing.
+So we have some libraries that were imported and, and so now the AI assistant is going
+to maybe help me out.
+So it did say something, mute TensorFlow complaints.
+Sure.
+Does it, does it have some, some advice and it will start to try to give you advice.
+But what I, what I really want to do is I want to build, I want to write a function,
+make a function that extracts text from URL.
+There we go.
+So here we go, extract text from URL and look, it'll actually give me an example of the kind
+of code that I would like.
+And now what I can do is I can even run a lint around it.
+So if I say this, I say, make lint, make lint, I'm going to change the lint so that it's
+asterisk.
+So this will be any file and let's go ahead and try that out.
+We'll say make lint and look, it says unused click, unused pipeline.
+So it's just saying unused imports, which is, which is fine for now.
+But I like to use the AI tool copilot at the same time as I use a linting tool.
+And so what I also like to do is try it out from IPython.
+So once I build a function, let's, let's try it out, right?
+So, so let's type in IPython right here and then I'll type in URL and let's, yeah, let's
+just use this.
+Let's use this URL, which is the Python language URL.
+And then I'm going to say from HFCLI imports extract URL from all that, all that, that
+output is annoying.
+From HFCLI imports extract from URL.
+So now let's put in results or text is equal to extract from URL, put in the URL in there
+and hopefully this works.
+And in fact, if I look at it, there we go.
+It does work, right?
+So it was able to grab the entire thing and we can even see the count of it.
+So we can say Len of the text, right?
+And we can see that it's got 24,813 characters in it.
+So it's got a lot of, a lot of texts in there.
+So there we go.
+Mission accomplished.
+I'm going to open up another terminal, leave this one running so I have, I can kind of
+go back and forth.
+Now the next one that I would want to do is why don't we build a function that is able
+to use the transformer to summarize it.
+So write a function that uses hugging face to return a summary.
+Okay.
+Process text.
+And you can see here, this is, this is what's so awesome about Copilot is it, it gives me
+a good example and I don't have to totally trust it yet.
+You know, basically I can actually, I can actually, you know, like, essentially test
+it out by, by linting it first.
+And so I would, I'd probably lint it, lint this first, so like make lint.
+And look at the only thing that it's complaining about is Wikipedia, which is, which is not,
+not too bad, right?
+That's, that's not a bad thing to be, to be complaining about.
+All right.
+So we'll, we'll go ahead and, and do that.
+And we'll, we'll, we'll test this one out now.
+So I would just again, go back to IPython and I would get out of here like this, and
+then I would open, I'll make this a little bit smaller, so I have a little bit more room.
+And then I'm going to run IPython and I can just rerun those same commands again.
+So I can just say extract the URL, import that function, but also I want to import process.
+Let's make the URL.
+There we go.
+Let's get the text, which should be that.
+So extract the text and then finally let's process the text.
+So we'll say summary is equal to process and then pass in that text and we can just try
+it out.
+Now it would be nice to, to not have all this garbage be printed out to us.
+I really don't know why they do that, but life isn't perfect, I guess.
+I love this.
+IPython is logged at most once for the lifetime of a process.
+How about you never show it to me?
+How about that?
+That would be great.
+But again, it is doing some free work for us, which is summarizing code or summarizing
+text.
+Let's see if it works.
+Summarization process complete.
+So now I just say summary.
+There we go.
+IPython is a high level general purpose programming language.
+It supports blah, blah, blah.
+So pretty cool actually how quickly I was able to build that by helping with Copilot.
+So now what we're going to do is to get kind of similar functionality, I'm going to make
+one more function and this one will write a function.
+This will be write a function that uses Wikipedia to return a page.
+There we go.
+And again, it should be pretty smart here.
+Let's double check everything.
+This looks good.
+This looks good.
+Let's lint again.
+I always think it's good to do a, and let's double check our formatting.
+Yeah.
+So formatting will format everything lint.
+Yeah.
+So we'll say make format and this should format our code if, whoops, you know, like for whatever
+reason it's not formatted.
+So that's kind of nice, right?
+It formats it a little bit.
+Although that's, that line is a little bit long, it's annoying.
+But and we'll say make lints like this.
+Perfect.
+We have perfect code so far.
+And at this point, now that I've got all this, I don't even need to test it.
+I'm pretty sure that's correct.
+I'm going to write a command line tool now.
+So now I need to say write a click group, which is the command line tool library.
+And look, it'll just write it for me.
+Click group.
+There we go.
+Perfect.
+Now let's write a command that, that let's write a sub command.
+So let's change things a little bit.
+Let's write a sub command that summarizes a URL.
+So we can do this and we just say, but, but in this case, see it, it, it, it didn't give
+me exactly what I want.
+So I'm going to say URL like this or URL summarize or something like that.
+And then it's going to take in a URL.
+And then this will actually write the code for me.
+So this is, this is what we want.
+Extract the text from the URL process it, and then echo it out.
+That looks good.
+Now what's cool as well is that I can actually ask the AI assistant to give me the documentation
+for my command line tool.
+So look, we can say this and even give me an example of how to run it.
+Look, there we go.
+API URL, summarize perfect, right?
+I don't have to tweak it a little bit, but, but basically it's helping me write this code,
+which is, which is great.
+And then I'm going to write a second sub command that summarize the Wikipedia page.
+Exactly.
+Thank you.
+I love it.
+How it reads my mind.
+There we go.
+That's exactly what I want.
+And wiki page perfect, there we go, summarize the texts and look, it even gives us an example
+because it knew, it knew that I was starting to ask for, for examples in the documentation.
+That's it.
+We got everything we need.
+And now I just need to invoke it and we'll just say, uh, run it, run the CLI.
+There you go.
+Perfect.
+So it built it.
+Now I'm going to format it.
+So I'm going to say make formats and I'm going to say make lens.
+Let's go ahead and, uh, limp this out.
+Great.
+We got this thing working.
+So now in theory, this should just work.
+If I go HF hugging face CLI, let's first look at the help menu.
+There we go.
+We have two sub commands.
+So it's a different command.
+It's a different tool now.
+So it says URL summarize, uh, wiki summarize.
+And so now I can just copy the wiki summarize first.
+Now this is, I need to give it a, the one thing I messed up on is this.
+I think this has to be in quotes, um, or, or it won't work.
+Uh, so I'm going to take that command here.
+Oh, oh, because it, uh, it didn't exactly.
+So you, you have to watch it.
+It's not perfect, but it's close, close to perfect.
+And I'll just, just copy this again.
+It's it's got the right idea.
+It's a, it's a very smart, uh, assistant.
+Okay.
+And every, every once in a while, we'll get these weird errors, all kinds of stuff.
+It's like, okay, sure.
+I don't know why I'm getting this, but, uh, it is giving me weird errors.
+Okay.
+Okay.
+Okay, so it's going to run this summarization from the Wikipedia library, and essentially
+once this works, there we go, perfect.
+So you can see how easy it is to build that out.
+So now that I've got that working, I think the other one that would be interesting to
+see if I can figure out would be, could I get Gradio to run and build maybe some kind
+of a web app locally?
+I don't know.
+I mean, maybe.
+So if I say get status, let's go ahead and add this.
+So I'll try really quick to see if I can get a Gradio app to work, adding CLI.
+So we'll do a git pull here, and git push.
+So the Gradio is kind of an interesting little twist here, and so I would need to install
+the right packages for that, and I would probably want to look at one of these other, I guess
+this might be done.
+Is this done?
+Wow, look at this.
+It's taking forever.
+It may not finish.
+I'm just going to kill that one, but if I look at this Gradio app here, this is probably
+close to what I would want, and so I guess let's try to build this, right?
+Let's try it.
+Let's see if I can build this app as well, so I'm going to put this into my environments
+next.
+So I'm going to say touch app.py, and this looks pretty good, and then I'm going to go
+back to this, where is my example, spaces, demo, this is the one I care about.
+Let's look at the files, and let's look at the requirements, so we want these, Gradio,
+I think I have those two already, but I need Gradio, so let's put that one in the requirements,
+Gradio.
+Now transformers, I am curious if there's a new one, because if I do a pip install transformers,
+pip install dash dash upgrade, maybe we'll get rid of some of those error messages, transformers,
+so I guess it's slightly new, so we'll just change it to dot three, and then if I do a
+make install, this should install the Gradio library, and let's see if we can get this
+thing to work.
+Okay, so now, in theory, if I just run Python app, that would do something kind of similar
+to the command line tool, but it would run a web application, and look, our code spaces
+environment is smart enough to run it, so I'm going to click on open in browser, like
+this, and pretty cool, right, I can actually write my own text to summarize, intertext
+to summarize, intertext block, I don't know why there's two, that's weird here, why there's
+two of them, did I screw it up, let's see here, model prompts, placeholder, yeah, anyways,
+it looks a little bit goofy, I have something wrong with my code here, but let's try it
+out, let's just say, let's grab, let's go back here, or let's go to Wikipedia, that's
+a good place, I'm going to go to Wikipedia again, let's grab some text, go to this, and
+I'm going to take this, intertext blocks to summarize, so I don't know why there's two
+of them, but we don't care for now, now, this is running right here, right, we see it's
+running right here, and we can also get this application, so we don't need to use hugging
+face as well, oh, this one, it timed out, let's try it again, I don't know why it timed
+out, let's see, why is it, oh, it may be taking a long time to run locally, and there might
+be a timeout that's as a result, so I might need to look into how Gradio, we can extend
+the timeout, and I can see if there's a way to limit that, oh, there we go, so, look,
+I did get it to work locally as well, so now I have yet another application, so I have
+a command line tool, and I have a local web application that I could then customize and
+tweak a little bit, now, I guess if I wanted to get a little bit fancy, I could say, like,
+you know, like, we could ask our OpenAI, I'm sorry, our copilot to help us build something,
+which I'm going to try, so I'm going to say, you know, write a function that uses hugging,
+that parses a Wikipedia page and then summarizes it, okay, so there we go, so I would have
+to import Wikipedia, and then what I would need to do next is I could basically say write
+a function that uses hugging face to return a summary, there we go, it looks similar,
+and write a function that uses Gradio to return a summary via a web interface, okay, I don't
+think that's exactly what I want, so, or write a Gradio, or use, or we could say use Gradio
+to create a web interface, that takes a Wikipedia page and summarizes it, let's try that, is
+it smart enough, let's see if it is smart enough, so it takes process, which is this
+one, input text, output, let's try it out, maybe it's smart enough to do it, I'm going
+to do this, I'm going to comment this one out, and then I'll put a little note here
+that says, okay, let's see, maybe, I mean, that's a lot less code, I like that, so let's
+run it again, now, actually, before I run it, let's lint it, so let's say make lint,
+there we go, so let's run it, and I need to get, again, a URL, so I'm going to take Daisy
+here, and it should launch, perfect, in a browser, let's see, did we get lucky?
+It's pretty amazing if Copilot helped me write this as well, because I'm shocked, actually,
+how good Copilot really is, it really is like having an expert sitting next to me, I just
+ask it questions, like, hey, do this, do this, do this, and we can even watch what's the
+output, right, because it, and we can even tell it to log more stuff, and all that kind
+of stuff, but I'm actually optimistic that it's actually going to work, let's see if
+this actually works, perfect, whoa, this is pretty amazing, so yeah, got it working, so
+I'm going to check this in, so next up here, I want to talk about OpenAI, and OpenAI is
+similar to Hugging Face in that there's pre-trained models that are LLMs, or large language models,
+but in this case, what I'm going to do is talk about first how to explore it a little
+bit, dive into some of the details around it, and then also go into potentially some
+solutions that actually we can use to use it, including integrating it with a cloud
+platform.
+I think I'll be able to get through all of that.
+So to start with, we have got OpenAI here, and to use it, you just click on the API,
+make sure you sign up for an account, there's actually a free tier here that you can use,
+I already have an account so I can just log in real quick, and one of the easiest ways
+to play around with it is to go through here and use their exploration API, so let's go
+ahead and take a look at this, and in order to get started with it, all that we need to
+do is say welcome to OpenAI, go through a quick start tutorial, play around with some
+of the things you can do, content generation, summarization, classification, categorization,
+sentiment analysis, all kinds of things.
+I think the examples is probably one of the better places to start with, and what you
+can do is just play around with some of the things.
+So just like I did with Hugging Face, I also could do summarization right here, and so
+it's a little bit different in that it's more of like a sanitized environment, and so if
+I wanted to summarize this for a second grader, let's go ahead and try that out, the fifth
+planet from the sun is called Jupiter, now if I want to go over to what I was doing earlier
+with Daisy, we can grab this, and let's actually grab maybe a couple here, and let's go back
+to our playground, and let's put this in.
+So if I was going to summarize this, Daisy, these are two paragraphs, let's go ahead and
+submit this, Daisy was once aired on September 7th during a commercial break, it was an ad
+created to make people think that if they voted for Barry Goldwater, there'd be a nuclear
+war, yeah, so this is interesting that it did two different sentences here, so I think
+we don't need that, we probably, although maybe what it did is it summarized each paragraph
+potentially, what happens if I make it all one, and clean it up a little bit, the text,
+let's try that, and let's see if it does a better job now.
+The commercial then cuts to a scene, interesting, but basically it's something where I could
+play around with it and summarize any bit of text, that's one example.
+You also can use grammar correction, English to another language, let's try this out, right,
+if I want to go through here and play around with it, what rooms you have available, translate
+this into one is French, two Spanish, three Japanese, your text ends with a trailing space
+which causes worse performance, but there we go, and if I want to switch, oh, I see
+one, two, three Japanese, I guess I could do four, which would be maybe Portuguese,
+I'm always bad at, let me just make sure I spell Portuguese correctly, Portuguese, there
+we go, I need my spell check, four Portuguese, and let's do that, and let's delete this,
+and go through and submit it again, in this case it didn't do it, one French, two, four
+Portuguese, submit, the output, so sometimes you have to, it's a little bit finicky and
+you have to play around with it, but the general idea is there's a lot of things you can do
+with this, in fact, explain a piece of Python code to other people, there's also, this one
+is kind of an interesting one I've been playing around with, it's called JavaScript to Python,
+so if I open this up, you can convert JavaScript into Python code, which is pretty crazy, actually,
+and this is in private beta, and there we go, right, so it goes through and it builds
+this out, now I don't know why it's building out so many of these, but what I could do
+is I thought there was another one here that's like write Python or something, I found it
+somewhere, you can control which model, let's see if I can find this out, codex, private
+beta, and I think they have an example of how to write Python code to classify your
+contents, I'd seen it somewhere, let's go ahead and do Python, they're most capable
+in Python, here we go, so this is what I was looking for, end of text, yeah, there was
+the codex is the one I was working with codex, this is what I care about, so, saying hello
+Python, ask the user for a name and say hello, yeah, this is exactly what I was looking for,
+so this is pretty crazy, so if we go through here, you can also just, you can write a doc
+string and you can have this thing write code for us, and so if we go through here, ask
+the user for their name and say hello, okay, let's do it, let's submit it, what is your
+name, print hello, right, and then what we could do is I could actually put this into
+another environment and test it out, so let's, since I already have the hugging face environment
+loaded, I'm going to build a directory, no, I won't even build a directory, I'll just
+say like open AI example input, so I'll just put that as like a prompt in front, and we
+can just see like examples that it built and I could even put a note here, just say like,
+you know, open AI built this via the codex, and so let's run it, so I go through here
+and I say Python open AI, what's your name, you know, Bob, hello Bob, there we go, perfect,
+and then I could basically kind of go back and forth here and we could say, I don't know,
+writes a function that randomly picks fruit from a list of 10 fruits, okay, def random
+fruits, print random fruits, right, and you can see here how, if I go back to this, we
+can make another one, touch, open AI example random fruits, like that, and there we go,
+write a function that randomly picks fruit from a list of 10 fruits, and if I go through
+here and I say Python open AI example random fruits, no random, pretty easy to fix, I just
+have to say import random, write that, there we go, and every time I run it, it gives me
+a different random fruit, so you can see that there's a lot of stuff you can do with open
+AI, so what I'm going to do now is I'm going to sketch out what I want to build with this
+tool, so we kind of know it's a very powerful pre-trained model system as well, uses large
+language models, it can do all kinds of stuff, like including question and answer, tons and
+tons of things, and so what I'm going to do is just sketch out what would be a fun thing
+to build, and I think a fun thing to build would be to build kind of a real world system
+that's cloud based, and so let's go ahead and do that, and I'm going to make this a
+different background, so I'm going to build a transcription tool using AWS, so in this
+case we'll call this a LLM transcription tool, so LLM stands for large language model transcribe
+tool, transcribe to summarize, summarize, there we go, LLM transcribe to summarize,
+how would this work, well first up I would need to have something that could look at
+S3 data, so I would need to write some code that could use Amazon to transcribe a video
+file, and in this case I have some video files in my S3 account, and I'm going to go through
+here and I'm going to transcribe them, next what I'm going to do is I'm going to call
+open AI, and I'm going to have open AI summarize that text, and I think that's one of the really
+powerful things that you can do with open AI is you can actually hook it up to a cloud
+based system, and then you've got really the best of both worlds, now later if you needed
+to train the model and tweak it a little bit, that's another thing you could do, so let's
+go ahead and build this end to end system, so first up I'm going to switch to a different
+code space, so I have one that is an AWS code space, AWS right here, and I'm going to go
+ahead and just select this link here and open this thing up, and a couple things I'll mention
+about this is that I do have secrets for AWS and also open AI setup, because I'm going
+to use both API keys, and what that will do is it will allow me to communicate with a
+full end to end pipeline, okay so what I can start off with doing here, let's run rebuild
+the container here, because this thing has a little bit of an issue, so I'm going to
+go through here and do rebuild container, and let's rebuild it, there we go, so sometimes
+a container, and that's one of the advantages of using the dev container thing, is it will
+just rebuild the whole thing from scratch, so a couple things that I'll point out while
+this thing is rebuilding, you can see all the logs, so if I go back to GitHub, this
+particular environment has in fact a couple different things here associated with it,
+one is that if we go to settings, and I go down to where it says secrets, notice it has
+code spaces right here, that I have my open AI key here that I use, I have my AWS keys
+as well that are using the principle of least privilege, so they just do what I need to
+do for this particular project, and all these keys are available to me so that I can then
+access them inside of my code, there we go, open AI key, and I even have some YouTube
+stuff inside of here as well, and so what's nice about this is this allows me to then
+interface with the cloud, interface with open AI, and test all this stuff out, so while
+this is running, let me show you really quick here my AWS account, so I'm going to go into
+AWS, I'm going to log in real quick, and we'll take a look at this, and so this particular
+account here, I can go to services, look at all services, and if I scroll down here, we
+can go to S3, like this, there we go, S3 storage, and with S3 storage, if I go down and I look
+at one of these sections here, I can look at different buckets and do different things
+with them, I think I have one called transcode test, and look, I have a video file, we can
+see it's a type MP4 file, it's a pretty big file, so it's close to a gig file, and what
+I want to do is I want to transcribe this thing automatically, and then I want to use
+my open AI tool to interface with it.
+Let's take a look at the other kinds of services that are available on AWS, so they have a
+service called Transcribe, if we go through here, and I go to Transcribe, let's go to
+this, here we go, Amazon Transcribe, Amazon Transcribe can create transcription jobs which
+basically just give you the text that I can then later download, and so that's really
+the goal here, is that I want to actually build something that can actually transcribe
+the text, and so fortunately I've already done that, so I have a tool here and we can
+walk through what the code does, so what I did was I, with our assistant with open AI
+helping me, I said, I want you to build a function that can summarize a transcription
+and also truncate the text to 4,000 characters, and so in this particular example here, I
+have a function that goes through and it does that.
+Next I want to build a function that transcribes all the files in a bucket, so if I had a bucket
+full of MP4s, for example, and I want to convert them to text, I would go through here and
+I would run this code, this again I was able to use open AI to help me with, and then this
+one would list the transcription job, so once they've been transcribed, do it, and then
+I have another piece of code that says give me the URI of the transcription job to download
+the transcription, and then finally download it, and then I want to read it in and return
+only the text out of it, I don't want any other like JSON payload, and then I want to
+write a function that takes that, downloads it, and then returns back the text, and now
+if I put all this into a command line tool, I can actually interface with that bucket
+and interface with what is going to happen, and then finally I can actually at the very
+end here, what I can do is I can say I want to summarize the code as well, and so if we
+go back to summarize here, I think there's a summarize utility right here, this one is
+going to summarize things using the open AI API, so pretty easy tool to build when I'm
+using my AI assistant here, Copilot, and so I'm going to go through here and I'm going
+to first, I'm going to run this tool, which is called Python AWS Transcriber, and let's
+get this thing cooking, so there we go, no module named boto3, not a problem, I'll just
+make sure I've got everything installed here, just say make install, okay great, and perfect,
+now if I go through and I run this, AWS Transcriber, we can see I've got all these kind of sub-commands,
+so the first thing that I want to do is I want to list all the jobs that are available,
+you know, basically MP4s that have been trans-coded, so we'll go through here, and let's list all
+of them, aha, and this, look, this is a one-to-one match, right, because we can look at trans-code,
+this is the bucket, these are all the transcribed jobs, right, I see three of them right here,
+three jobs, so if I go through here, look, these are the three jobs that we're able to
+find, now I want to actually summarize a transcription job, or I want to get the results, so let's
+get the results first, so we know that that's one of the jobs that I can look at, so we'll
+go ahead and say Python, you know, AWS Transcriber, and we want to say get results of this particular
+job, so let's see what the text is, right, because it took me talking for an hour, and
+it grabbed all the text out of it, and there you go, it's a lot of text, in fact, I could
+probably word count it, like I could do word count dash L, and well, dash C maybe, characters,
+anyway, so yeah, we see it's 21,484 characters, so like pretty large amount of text, and now
+that I've got that, I again run my tool, that we see that I can actually summarize it, that's
+it, so all I need to do now is do this, and say summarize the tool, so summarize, there
+you go, now it's going to go through, it's going to grab all the stuff, and look, it
+now summarized the results of that output, so what's pretty cool about this is that it
+shows that I can actually use the power of the cloud, plus the power of like a pre-trained
+API, in the case our LOM model, like OpenAI, to actually kind of build these more sophisticated
+tools here, and so who knows what I would do with this, maybe I would put this into
+captions on videos that I created, or whatever, now the next step would be, now that I know
+I can do that, could I build out a tool, that's like a question and answer tool, that I would
+use for OpenAI, so let's go ahead and try that out, let's see if we can build an OpenAI
+tool here that does question and answer, so I'm going to say OpenAI answer bot, answer
+bot, like this, and I'm going to do this, answer bot CLI, like that, so I can import
+it if I need to, because if you have hyphens, it just makes things messy, so now the first
+thing I'm going to do is I'm going to say import OpenAI, like that, I'm going to say,
+you know, write a function to get an answer from the OpenAI API, here we go, here's a
+question, and sometimes it takes a little bit of time, there we go, for it to actually
+give you some prompts, in this case, there we go, opening a key, right, this is not exactly
+what I want, so what I can do is I can look at my other, I actually have one already here,
+so we can say, in fact, in my case, I'm just going to be lazy, I'm going to copy a little
+bit of what I had earlier, because why not help it out, so in this case, this submits
+a question to the OpenAI API, now, in this particular example, because I've loaded the
+API key in my GitHub Codespaces environment, then I can actually access it and then use
+it in the rest of my code, and this is really just essentially the sample code that you
+would get from the prompts that you would ask, and so this one says, this submits a
+question to the OpenAI API, now how would I play with this, initially, I think one of
+the ways that we could do this is with IPython, so let's try it out, so if I type in IPython,
+then I say, from OpenAI answer bot, CLI, import, submit a question, and we do text is equal
+to what is a good color for a birthday, I don't know, something like that, and then
+we would say, results, or actually, let's just print it out, right, because this looks
+pretty good, let's just say, submit question, and we'll put in the text, let's try that
+out, oh, import OS, so let's import OS, so I think I might need to, see this is going
+to cause a problem, I need to reload this environment, so we'll do that, and let's try
+that out, so we'll say IPython, we'll make the text, we'll import, submit question, we'll
+submit the question, a good color for a birthday is pink, there you go, pretty cool, that it's
+going to, I just have to answer it, ask it questions that it can give me back, results
+now, so now that I know it works, maybe I would do like a lint, to just make sure that
+I don't have any bugs in my code, yep, everything's still working, so now let's open up Click,
+and let's import Click, and let's build this into a command line tool, right, so let's
+go here and let's say, we'll say build a Click group, here, and we'll say, Click group, there
+we go, and we can say, even some documentation, we can say, an open AI tool, to answer questions,
+there we go, and then I can build a Click, see, it even tells me a prompt of what it
+thinks I would want to do, but I can actually just build off of it, I can say build a Click
+sub-command, that takes a question, so, I mean, I guess their terminology is correct,
+but I want to name it something, I want to call this question, question, like that, and
+then we give it the text, as an argument, we do a question, there we go, this is the
+main functionality that you ask the open AI API question to get an answer, for example,
+who won the Summer Olympics, etc., now let's change this a little bit as well, and let's
+build out a, more of like a clean interface here, and so what we can do is we can say,
+which mod plus X, and we can do open AI here, and we can, and we can change this, so that,
+it's this open, open AI, open AI answer bot, answer bot, CLI, there we go, and we'll add
+this here, like that, so let's try this, does this work, it didn't do anything, so submit
+the answer, because I don't, I haven't invoked it yet, because I need to add a main function,
+so what we need to do is run the CLI, and we just need a main function, now if I run
+it, no such command, who won, oh, because I need to do a sub command, which would be
+this, it would be question, like that, so what I need to do first is do a help menu,
+so we'll add a help menu, there we go, an open AI tool to answer questions, and look,
+here's the commands, I guess it would be, it would be technically called a command,
+and not a sub command, so build a command, but I just need to put the name of the command
+in there, and so now, if I just put in text, this should, or question, this should work,
+who won the 2020 Summer Olympics, the summer, 2020 Summer Olympics were postponed due to
+COVID-19, well, who won the 2016 Olympics, control E, they were held in Rio, the United
+States won the most medals with 121, so we have a pretty cool little super AI system
+that we build out, that we also use the AI to help build AI, and let's go ahead and build
+out a test, let's say make test, and there is no, or make lint, we have no test so far,
+we just have lint team, yeah, our code is looking good, so we could do, try to make
+something a little bit more sophisticated, which would be kind of fun, so we have the
+semantic question, which is nice, but what if we wanted to do something similar to what
+I did earlier with, you know, with hugging face, and how would we do this, well, I think
+we can do this, so what I can do is I can say, you know, build a function that reads
+the text from a webpage, all right, and so we would probably want to import Beautiful
+Soup, import Beautiful, now I should install Beautiful Soup, and I need to look at my other
+project real quick, so let's just kind of copy some of our code from our other projects,
+and let's build this out, so I think I was using Hugging Face here, Hugging Face CLI
+with Codespace is perfect, and we want to look at this, and we want to do Beautiful
+Soup, so let's add that in, there we go, and in fact, if we want to be lazy, which
+I think is not bad, we could even kind of look at, I mean, I guess we could grab it,
+but let's see if it'll be smart enough to do it on its own, so, oh, I need to look at
+the import, let's look at the, yeah, so import BS4, let's do both, let's grab those, so now
+I can do it again, I can say write a function to get the text from the URL, okay, this function
+gets the text from the URL, there we go, response, it looks good, I mean, what is the error handling
+that was here, though?
+This is using headers, I like this one a little bit better, because it looks a little more
+sophisticated, so you don't always have to take what the AI gave you, you can just build
+your own, this looks a little bit cleaner, and now, let's lint it and format it, so let's
+say make format, looks good, make lint, make sure that works, ooh, what's wrong here, so
+unable to import, oh, I need to do a make install, there we go, because I need to install
+Beautiful Soup, there you go, now I lint, it works, okay, perfect, now the other thing
+I'll need to do is I need to write an open AI function that will summarize, so write
+an open AI function that summarizes text, okay, let's see what it gives me, there we
+go, there's a prompt, this looks good, this looks good, looks pretty smart, but what I'm
+curious about is how does it know, how does it know how to summarize, though, that's what's
+kind of the prompts, which, let's try it out, we'll try it out, we'll see if this can actually
+do it, and then I'll first try it out with IPython, so first let's do IPython, and we'll
+say from this open AI, let's open up everything first, imports everything, we type in who,
+it shows me everything that's loaded, so first let's get the text, we'll be, let's grab this,
+which would be extract text from, or let's do the URL first, so we'll say URL equals,
+then we can do, again, this, there we go, and then we can just say text is equal to
+extract text from URL, URL, okay, so it's got that, and if I say lin text, we can see
+how big it is, it's probably pretty big, it's pretty big, right, it's got 17,646 characters,
+now here's the magic test here, does this work?
+We can say summarize, and we can do text, ah, the model's maximum content link is this,
+you requested, please reduce your prompt or completion link, so one of the things that
+we may want to do is, is we want to compress this to be less text, and so I think I could
+do this, I could say return a max of, let's do 3500 characters, because I think that would
+be about what I would need, oh, your content text, your token is 2049, well, okay, let's
+try this, let's just say 3500, and then, there we go, right, so it kind of helps me out to
+solve that problem, and for the, this model's maximum content link is this, so I believe
+that could be a problem, which, let's just even do 1500, so let's just do 1500, let's
+do a max of 1500 characters, like that, okay, and let's go back to this, and let's try it
+out again, text, oh, let's first import everything, go to the URL, grab it, extract the URL, and
+now if we say lend on the text, it should be smaller, right, it should be 1500 exactly,
+and we could just even type it out, right, and now we would just do summarize text, is
+it smart enough to just know how to summarize without telling it to summarize, I'm a little
+bit pessimistic, but I guess it's smart enough to know that it should summarize, the advertisement
+was controversial, and if we look at the results, let's see if it was able to give us anything
+that we cared about, results, I think there's a better way to, let's look at the lin of
+the results, how many, see that doesn't make sense, that's not a great summarization, what
+I think we need to do is we need to change the prompt to be an F string, that is the,
+oh I see, so let's change this to be dollar sign, and I can even ask it to create a TLR
+prompt, and let's see what it does, if it's smart enough to do this, huh, summarize, maybe
+this is how you do it, I actually don't know, so I'm optimistic, let's try it, so I'm going
+to go through here, and we'll say again from, import it, we'll say URL, got this, we'll
+say text will be extracted, and now we summarize it, text, what happens, does it actually do
+a summary, and let's see how long it is, hmm, summarize the text, the advertisement is controversial,
+well it looks like a decent summary actually, and if I look at the results, let's see how
+long the result is, and if we say Len results, let's try that out, Len result, 1500, hmm,
+it's funny, it made a bigger summary than the text I gave it, which I think we want
+to do, if I go back to the, I mean I guess you have to play around with these prompts
+here because I thought that there was a TLR, look at this one, this one is probably, could
+be interesting, prompts, if you add that at the end, notice how it works, is you put the
+text and then you do that, let's try this, let's try this, this is more what I was hoping
+to accomplish, so if I just change this, and I just do this, now let's try one more time,
+let's see if this works, and ipython, and we make a URL, we do the import, we do the
+text, extract it, and then we summarize it, this should be much, much shorter, Len results,
+hopefully like a line, so that is shorter, and we do results, and how much shorter is
+it, the ad was a nuclear explosion, so interesting, so I don't know if this one, but this one
+also we have to be aware that, I'll do the last changes, I can use a more advanced one,
+which is this, this is the more advanced model, and max tokens, here we go, so let's try this
+one now, last one, let's see if that changes it, so we'll go through here, go through to
+the URL, go to the extracts, then go through and summarize it, ooh that was quick, there
+we go, that's what I was hoping for, so now we're almost done, let's build this up, now
+we got a pretty cool tool actually, I might want to use this myself, is let's build a,
+it's probably smart enough to know what I want, build a chameleon tool that takes a
+URL and summarizes it, that's exactly what I want, summarize, summarize, there we go,
+perfect, that's exactly what I want, and let's try it out, so pretty cool, so let's go ahead
+and say make lints, make sure the linting works, always a good, ah look at this, function
+already defined, so it found one bug, 84, oh summarize, summarize URL, how about that,
+make lints, so you do want to, you want to make sure that you're doing linting, so now
+that I've got this, I should be able to play with this, there we go, the 2020 Summer Olympics
+were postponed, so they're able to summarize that URL, I guess the last thing that I'll
+do that's kind of a fun one to play around with, so first let me push this so people
+can get access to it, so let's say get status, get add everything, commit this, adding, summarizer,
+and get, commit, dash m, adding, summarizer, okay, the next thing to do would be to really
+quick look at Old Man and the Sea, the text, which should be like text, I believe is like
+right here, perfect, this is exactly what I want, and I'm going to summarize the Old
+Man and the Sea, so let's do that, one of my favorite books, let's go to this, summarize
+it, and what is the point of the whole book, there we go, the Old Man was a fisherman who
+had gone 84 days without catching a fish, he was getting old, his hands were scarred,
+he finally caught a fish, but it was so big and strong that it pulled him out to sea,
+the Old Man fought the fish for days and finally killed it, but when he tried to tow it back
+to shore, the sharks came and ate the fish, leaving all the skeleton, yeah, that's pretty
+much it, that's the short, that's the cliff notes version of Old Man and the Sea, I mean
+a little bit of context missing probably because of some other things that aren't in here,
+but not bad.
