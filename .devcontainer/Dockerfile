@@ -7,7 +7,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/universal:2-focal
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 RUN apt-get update && apt-get -y install --no-install-recommends \
    python3.8-venv \
-   gcc 
+   gcc \
+   sqlite3
    
 ARG USER="codespace"
 ARG VENV_PATH="/home/${USER}/venv"
