@@ -5,6 +5,17 @@ Test goes here
 from main import read_file, extract_keywords, make_hashtags
 from click.testing import CliRunner
 from main import cli
+from etl import collect_extract, query_database
+
+
+def test_collect_extract():
+    keywords, score, hashtags = collect_extract("text.txt")
+    assert len(keywords) > 0
+    assert len(score) > 0
+    assert len(hashtags) > 0
+    assert "#" in hashtags[0]
+    kw = keywords[0].replace(" ", "")
+    assert f"#{kw}" in hashtags[0]  #verify that the hashtags are in the output w/o space
 
 
 def test_read_file():

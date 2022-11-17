@@ -33,7 +33,7 @@ def cli():
 
 
 @cli.command("extract")
-@click.argument("filename")
+@click.argument("filename", default="text.txt")
 def extract(filename):
     """Extract keywords from a file"""
     text = read_file(filename)
