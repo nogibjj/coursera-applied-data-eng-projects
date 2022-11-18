@@ -23,4 +23,3 @@ Tasks:
 3. Now that the database has been created and data loaded into it. Query the database for the top results with `python etl.py query`
 4. Change the command-line flag to return only five results
 5. Create your own version of this tool in GitHub and extend the database with different metadata using another NLP tool.
-
