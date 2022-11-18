@@ -3,7 +3,7 @@
 ## Projects for Specialization
 
 ### ETL (Extract, Transform, Load)
-A. Keyword Extractor Tool to HashTag Tool
+A. Keyword Extractor Tool to HashTag Tool (Lab 1)
 
 Tasks:
 
@@ -15,6 +15,9 @@ Tasks:
 6.  Grab some text on the internet, say wikipedia or a blog post and create hashtags with it.
 
 
-A. SQLite Origin B. Python C. SQLite Destination
+A. SQLite Origin B. Python C. SQLite Destination (Lab 2)
 
-C. 
+Tasks:
+
+1. 
+
