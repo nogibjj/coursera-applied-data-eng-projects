@@ -42,7 +42,7 @@ def extract(filename):
 
 
 @cli.command("hashtags")
-@click.argument("filename")
+@click.argument("filename", default="text.txt")
 def hashtagscli(filename):
     """Extract keywords from a file and make hashtags"""
     text = read_file(filename)
