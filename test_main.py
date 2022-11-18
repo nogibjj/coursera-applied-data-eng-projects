@@ -15,7 +15,9 @@ def test_collect_extract():
     assert len(hashtags) > 0
     assert "#" in hashtags[0]
     kw = keywords[0].replace(" ", "")
-    assert f"#{kw}" in hashtags[0]  #verify that the hashtags are in the output w/o space
+    assert (
+        f"#{kw}" in hashtags[0]
+    )  # verify that the hashtags are in the output w/o space
 
 
 def test_read_file():
