@@ -14,7 +14,7 @@ Tasks:
 5.  Next convert the command-line tool to have another flag that limits the keywords to a maximum of the top keywords (lowest score is better).
 6.  Grab some text on the internet, say wikipedia or a blog post and create hashtags with it.
 
-#### B. SQLite Origin B. Python C. SQLite Destination (Lab 2)
+#### B. SQLite Destination (Lab 2)
 
 Tasks:
 
